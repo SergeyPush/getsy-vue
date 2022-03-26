@@ -6,17 +6,17 @@ const router = createRouter({
   routes: [
     {
       path: RouterPaths.HOME,
-      name: 'Home',
+      name: 'home',
       component: () => import('../pages/Home.vue'),
     },
     {
       path: RouterPaths.PRODUCTS,
-      name: 'Products',
+      name: 'products',
       component: () => import('../pages/Products.vue'),
     },
     {
       path: RouterPaths.SERVICES,
-      name: 'Services',
+      name: 'services',
       component: () => import('../pages/Services.vue'),
     },
   ],
