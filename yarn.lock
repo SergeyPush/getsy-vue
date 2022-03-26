@@ -680,6 +680,16 @@ postcss@^8.1.10, postcss@^8.4.6:
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
+primeicons@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/primeicons/-/primeicons-5.0.0.tgz#73a0b6028a77c58a9eeb331ad13aaf085e8451ee"
+  integrity sha512-heygWF0X5HFI1otlZE62pp6ye7sZ8om78J9au2BRkg8O7Y8AHTZ9qKMRzchZUHLe8zUAvdi6hZzzm9XxgwIExw==
+
+primevue@^3.12.2:
+  version "3.12.2"
+  resolved "https://registry.yarnpkg.com/primevue/-/primevue-3.12.2.tgz#3ae06fd9e944fbc8f30470c394a5f18d703845d9"
+  integrity sha512-v0ZphJSphbyisj9BnqSJWzEZxOEJKUqvTPEi120/x1ZplrupHJtSitDl7mw+d/OoyRQ19V1BplM0vlqJeiAMEg==
+
 promise@^7.0.1:
   version "7.3.1"
   resolved "https://registry.yarnpkg.com/promise/-/promise-7.3.1.tgz#064b72602b18f90f29192b8b1bc418ffd1ebd3bf"
