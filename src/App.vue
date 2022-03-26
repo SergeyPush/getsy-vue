@@ -1,6 +1,5 @@
 <template>
-  App
-  <p>some dumb text</p>
+  <router-view />
 </template>
 
 <script lang="ts">
