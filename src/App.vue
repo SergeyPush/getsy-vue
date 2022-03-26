@@ -1,4 +1,7 @@
-<template>App</template>
+<template>
+  App
+  <p>some dumb text</p>
+</template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
