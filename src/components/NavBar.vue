@@ -21,14 +21,14 @@
     </div>
     <Dialog v-model:visible="isDisplayed">
       <template #header>
-        <h3>Header</h3>
+        <h3>{{ hasAccount ? 'Sign Up' : 'Log In' }}</h3>
       </template>
 
       <Login v-if="hasAccount" />
       <SignUp v-if="!hasAccount" />
 
       <button class="button" @click="hasAccount = !hasAccount">
-        {{ hasAccount ? 'Already has an account?' : 'Log In' }}
+        {{ hasAccount ? "Don't have account? " : 'Already has an account?' }}
       </button>
     </Dialog>
   </nav>
@@ -90,6 +90,7 @@ $activeColor: var(--teal-500);
   border: none;
   color: $activeLinkColor;
   padding: 0;
+  cursor: pointer;
 }
 .router-link-active {
   text-decoration: underline;

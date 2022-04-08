@@ -1,7 +1,7 @@
 <template>
   <form class="container" @submit.prevent="submitForm">
     <div class="field">
-      <label for="username2">Username</label>
+      <label for="email">Email</label>
       <InputText
         id="email"
         type="text"
@@ -10,10 +10,12 @@
         autocomplete="off"
         v-model.lazy="formData.email"
       />
-      <small id="email-help" class="p-error"> Username is required </small>
+      <small id="email-help" class="p-error" v-if="v$.email.$error">
+        Email is required
+      </small>
     </div>
     <div class="field">
-      <label for="username2">Password</label>
+      <label for="password">Password</label>
       <InputText
         id="password"
         type="password"
@@ -21,7 +23,9 @@
         class="p-inputtext-sm"
         v-model.lazy="formData.password"
       />
-      <small id="password-help" class="p-error"> Password is required </small>
+      <small id="password-help" class="p-error" v-if="v$.password.$error">
+        Password is required
+      </small>
     </div>
     <Button
       type="submit"
@@ -35,22 +39,40 @@
 import { defineComponent, reactive } from 'vue';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
-import { AuthType } from '../../types/auth.interface';
+import useVuelidate from '@vuelidate/core';
+import { required, email, helpers } from '@vuelidate/validators';
 
 export default defineComponent({
   components: { InputText, Button },
   setup() {
-    const formData = <AuthType>reactive({
+    const formData = reactive({
       email: '',
       password: '',
     });
 
-    const submitForm = () => {
+    const rules = {
+      email: {
+        required: helpers.withMessage('Should not be empty', required),
+        email: helpers.withMessage('Should be an email', email),
+      },
+      password: {
+        required: helpers.withMessage('Password is required', required),
+      },
+    };
+
+    const v$ = useVuelidate(rules, formData);
+    const submitForm = async () => {
+      await v$.value.$validate();
+      const isInValid = v$.value.$invalid;
+      if (isInValid) {
+        return;
+      }
       console.log(formData);
       formData.email = '';
       formData.password = '';
+      v$.value.$reset();
     };
-    return { formData, submitForm };
+    return { formData, submitForm, v$ };
   },
 });
 </script>
