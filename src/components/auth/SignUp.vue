@@ -89,7 +89,7 @@ import { required, email, helpers, sameAs } from '@vuelidate/validators';
 
 export default defineComponent({
   components: { InputText, Button },
-  setup() {
+  setup(_, context) {
     const formData = reactive({
       firstName: '',
       lastName: '',
@@ -133,6 +133,7 @@ export default defineComponent({
       formData.lastName = '';
       formData.confirmPassword = '';
       v$.value.$reset();
+      context.emit('closeDialog');
     };
     return { formData, submitForm, v$ };
   },

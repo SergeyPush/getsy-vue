@@ -24,8 +24,8 @@
         <h3>{{ hasAccount ? 'Sign Up' : 'Log In' }}</h3>
       </template>
 
-      <Login v-if="hasAccount" />
-      <SignUp v-if="!hasAccount" />
+      <Login v-if="hasAccount" @closeDialog="isDisplayed = false" />
+      <SignUp v-if="!hasAccount" @closeDialog="isDisplayed = false" />
 
       <button class="button" @click="hasAccount = !hasAccount">
         {{ hasAccount ? "Don't have account? " : 'Already has an account?' }}

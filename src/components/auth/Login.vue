@@ -44,7 +44,7 @@ import { required, email, helpers } from '@vuelidate/validators';
 
 export default defineComponent({
   components: { InputText, Button },
-  setup() {
+  setup(_, context) {
     const formData = reactive({
       email: '',
       password: '',
@@ -71,6 +71,7 @@ export default defineComponent({
       formData.email = '';
       formData.password = '';
       v$.value.$reset();
+      context.emit('closeDialog');
     };
     return { formData, submitForm, v$ };
   },
