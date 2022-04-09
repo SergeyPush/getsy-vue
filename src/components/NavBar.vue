@@ -16,11 +16,13 @@
           <p class="username">
             {{ auth.firstName }}
           </p>
-          <Button
-            label="Create"
-            class="p-button-sm p-button-text"
+
+          <router-link
+            :to="{ name: 'create' }"
+            class="link"
             v-if="auth.isAuthenticated"
-          />
+            >Create</router-link
+          >
           <Button
             label="Log in"
             class="p-button-sm p-button-outlined p-button-text"

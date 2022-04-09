@@ -19,6 +19,11 @@ const router = createRouter({
       name: 'services',
       component: () => import('../pages/Services.vue'),
     },
+    {
+      path: RouterPaths.CREATE,
+      name: 'create',
+      component: () => import('../pages/Create.vue'),
+    },
   ],
 });
 
