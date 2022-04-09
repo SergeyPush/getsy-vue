@@ -49,7 +49,7 @@ export default defineComponent({
     SignUp,
   },
   setup() {
-    const isDisplayed = ref(true);
+    const isDisplayed = ref(false);
     const hasAccount = ref(true);
 
     return { isDisplayed, hasAccount };

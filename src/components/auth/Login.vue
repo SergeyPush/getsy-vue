@@ -41,6 +41,8 @@ import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import useVuelidate from '@vuelidate/core';
 import { required, email, helpers } from '@vuelidate/validators';
+import { logIn } from '../../api/user.api';
+import { useMainStore } from '../../store/store';
 
 export default defineComponent({
   components: { InputText, Button },
@@ -67,7 +69,8 @@ export default defineComponent({
       if (isInValid) {
         return;
       }
-      console.log(formData);
+
+      await logIn(formData);
       formData.email = '';
       formData.password = '';
       v$.value.$reset();

@@ -126,7 +126,7 @@ export default defineComponent({
       if (isInValid) {
         return;
       }
-      console.log(formData);
+
       formData.email = '';
       formData.password = '';
       formData.firstName = '';
