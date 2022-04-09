@@ -1,32 +1,41 @@
 <template>
   <nav class="navbar">
-    <div class="container">
-      <router-link :to="{ name: 'home' }" class="logo">Getsy</router-link>
-      <div class="menu">
-        <router-link :to="{ name: 'products' }" class="link"
-          >Products</router-link
-        >
-        <router-link :to="{ name: 'services' }" class="link"
-          >Services</router-link
-        >
+    <Container>
+      <div class="container">
+        <router-link :to="{ name: 'home' }" class="logo">Getsy</router-link>
+        <div class="menu">
+          <router-link :to="{ name: 'products' }" class="link"
+            >Products</router-link
+          >
+          <router-link :to="{ name: 'services' }" class="link"
+            >Services</router-link
+          >
+        </div>
+        <div class="user">
+          <i class="pi pi-user icon"></i>
+          <p class="username">
+            {{ auth.firstName }}
+          </p>
+          <Button
+            label="Create"
+            class="p-button-sm p-button-text"
+            v-if="auth.isAuthenticated"
+          />
+          <Button
+            label="Log in"
+            class="p-button-sm p-button-outlined p-button-text"
+            @click="isDisplayed = !isDisplayed"
+            v-if="!auth.isAuthenticated"
+          />
+          <Button
+            label="Logout"
+            class="p-button-sm p-button-outlined p-button-text"
+            @click="auth.signOut"
+            v-if="auth.isAuthenticated"
+          />
+        </div>
       </div>
-      <div class="user">
-        <p class="username">{{ auth.firstName }}</p>
-        <Button label="Create" class="p-button-sm p-button-text" />
-        <Button
-          label="Log in"
-          class="p-button-sm p-button-outlined p-button-text"
-          @click="isDisplayed = !isDisplayed"
-          v-if="!auth.isAuthenticated"
-        />
-        <Button
-          label="Logout"
-          class="p-button-sm p-button-outlined p-button-text"
-          @click="auth.signOut"
-          v-if="auth.isAuthenticated"
-        />
-      </div>
-    </div>
+    </Container>
     <Dialog v-model:visible="isDisplayed">
       <template #header>
         <h3>{{ hasAccount ? 'Log In' : 'Sign Up' }}</h3>
@@ -49,12 +58,14 @@ import Button from 'primevue/button';
 import Login from '../components/auth/Login.vue';
 import SignUp from '../components/auth/SignUp.vue';
 import { useAuthStore } from '../store/auth';
+import Container from './Container.vue';
 export default defineComponent({
   components: {
     Button,
     Dialog,
     Login,
     SignUp,
+    Container,
   },
   setup() {
     const isDisplayed = ref(false);
@@ -68,30 +79,42 @@ export default defineComponent({
 
 <style scoped lang="scss">
 @import '../styles/variables.scss';
+@import '../styles/mixins.scss';
 
 $logoColor: var(--orange-500);
 $borderColor: var(--teal-50);
 $activeColor: var(--teal-500);
+$usernameColor: var(--bluegray-500);
+$navBarBackgroundColor: #fff;
 .navbar {
   border-bottom: 1px solid $borderColor;
-  background-color: #fff;
+  background-color: $navBarBackgroundColor;
   padding: 10px 0;
   margin-bottom: 10px;
 }
 .container {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: 70%;
-  margin-left: auto;
-  margin-right: auto;
+}
+.menu {
+  display: none;
+  @include tablet {
+    display: block;
+  }
 }
 .user {
   display: flex;
   align-items: center;
 }
+.icon {
+  color: $usernameColor;
+  margin-right: 10px;
+}
 .username {
   margin-right: 20px;
+  color: $usernameColor;
 }
 .link {
   text-decoration: none;

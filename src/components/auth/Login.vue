@@ -6,9 +6,11 @@
         id="email"
         type="text"
         aria-describedby="username2-help"
-        class="p-inputtext-sm input"
+        :class="['p-inputtext-sm', 'input', v$.email.$error && 'p-invalid']"
         autocomplete="off"
         v-model.lazy="formData.email"
+        :autofocus="true"
+        @change="v$.email.$reset"
       />
       <small id="email-help" class="p-error" v-if="v$.email.$error">
         Email is required
@@ -20,8 +22,9 @@
         id="password"
         type="password"
         aria-describedby="username2-help"
-        class="p-inputtext-sm"
+        :class="['p-inputtext-sm', 'input', v$.password.$error && 'p-invalid']"
         v-model.lazy="formData.password"
+        @change="v$.password.$reset"
       />
       <small id="password-help" class="p-error" v-if="v$.password.$error">
         Password is required
@@ -42,6 +45,7 @@
 import { defineComponent, reactive, onUnmounted } from 'vue';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
+import Password from 'primevue/password';
 import useVuelidate from '@vuelidate/core';
 import { required, email, helpers } from '@vuelidate/validators';
 import { useAuthStore } from '../../store/auth';
@@ -49,7 +53,7 @@ import { storeToRefs } from 'pinia';
 import InlineMessage from 'primevue/inlinemessage';
 
 export default defineComponent({
-  components: { InputText, Button, InlineMessage },
+  components: { InputText, Button, InlineMessage, Password },
   setup(_, context) {
     const auth = useAuthStore();
     const { error } = storeToRefs(auth);
@@ -104,7 +108,9 @@ export default defineComponent({
   width: 100%;
   margin-bottom: 10px;
 }
-
+input {
+  width: 100%;
+}
 .field {
   width: 100%;
   min-width: 280px;

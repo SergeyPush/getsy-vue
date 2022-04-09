@@ -1,18 +1,23 @@
 <template>
-  <div>Home</div>
+  <Container>
+    <div class="grid">
+      <div class="col-4">1</div>
+      <div class="col-4">2</div>
+      <div class="col-4">3</div>
+      <div class="col-4">4</div>
+    </div>
+  </Container>
 </template>
 
 <script lang="ts">
-import { storeToRefs } from 'pinia';
 import { defineComponent } from 'vue';
-import { useMainStore } from '../store/store';
+import Container from '../components/Container.vue';
 
 export default defineComponent({
   setup() {
-    const store = useMainStore();
-    const { auth } = storeToRefs(store);
-    return { auth };
+    return {};
   },
+  components: { Container },
 });
 </script>
 
