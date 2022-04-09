@@ -11,17 +11,25 @@
         >
       </div>
       <div class="user">
+        <p class="username">{{ auth.firstName }}</p>
         <Button label="Create" class="p-button-sm p-button-text" />
         <Button
           label="Log in"
           class="p-button-sm p-button-outlined p-button-text"
           @click="isDisplayed = !isDisplayed"
+          v-if="!auth.isAuthenticated"
+        />
+        <Button
+          label="Logout"
+          class="p-button-sm p-button-outlined p-button-text"
+          @click="auth.signOut"
+          v-if="auth.isAuthenticated"
         />
       </div>
     </div>
     <Dialog v-model:visible="isDisplayed">
       <template #header>
-        <h3>{{ hasAccount ? 'Sign Up' : 'Log In' }}</h3>
+        <h3>{{ hasAccount ? 'Log In' : 'Sign Up' }}</h3>
       </template>
 
       <Login v-if="hasAccount" @closeDialog="isDisplayed = false" />
@@ -40,7 +48,7 @@ import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import Login from '../components/auth/Login.vue';
 import SignUp from '../components/auth/SignUp.vue';
-
+import { useAuthStore } from '../store/auth';
 export default defineComponent({
   components: {
     Button,
@@ -51,8 +59,9 @@ export default defineComponent({
   setup() {
     const isDisplayed = ref(false);
     const hasAccount = ref(true);
+    const auth = useAuthStore();
 
-    return { isDisplayed, hasAccount };
+    return { isDisplayed, hasAccount, auth };
   },
 });
 </script>
@@ -77,7 +86,13 @@ $activeColor: var(--teal-500);
   margin-left: auto;
   margin-right: auto;
 }
-
+.user {
+  display: flex;
+  align-items: center;
+}
+.username {
+  margin-right: 20px;
+}
 .link {
   text-decoration: none;
   font-weight: 600;

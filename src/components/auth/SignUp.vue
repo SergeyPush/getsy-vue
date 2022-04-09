@@ -72,6 +72,9 @@
         Confirmation is required
       </small>
     </div>
+    <InlineMessage severity="error" v-if="error" class="message">
+      {{ error }}
+    </InlineMessage>
     <Button
       type="submit"
       label="Sign Up"
@@ -81,15 +84,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue';
+import { defineComponent, reactive, onUnmounted } from 'vue';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
+import InlineMessage from 'primevue/inlinemessage';
 import useVuelidate from '@vuelidate/core';
-import { required, email, helpers, sameAs } from '@vuelidate/validators';
+import { required, email, helpers } from '@vuelidate/validators';
+import { storeToRefs } from 'pinia';
+import { useAuthStore } from '../../store/auth';
 
 export default defineComponent({
-  components: { InputText, Button },
+  components: { InputText, Button, InlineMessage },
   setup(_, context) {
+    const auth = useAuthStore();
+    const { error } = storeToRefs(auth);
+
     const formData = reactive({
       firstName: '',
       lastName: '',
@@ -127,15 +136,19 @@ export default defineComponent({
         return;
       }
 
-      formData.email = '';
-      formData.password = '';
-      formData.firstName = '';
-      formData.lastName = '';
-      formData.confirmPassword = '';
-      v$.value.$reset();
-      context.emit('closeDialog');
+      await auth.signUp(formData);
+      if (auth.isAuthenticated) {
+        formData.email = '';
+        formData.password = '';
+        formData.firstName = '';
+        formData.lastName = '';
+        formData.confirmPassword = '';
+        v$.value.$reset();
+        context.emit('closeDialog');
+      }
     };
-    return { formData, submitForm, v$ };
+    onUnmounted(() => auth.clearError());
+    return { formData, submitForm, v$, error };
   },
 });
 </script>
@@ -154,6 +167,11 @@ export default defineComponent({
   width: 100%;
   display: flex;
   flex-direction: column;
+  margin-bottom: 10px;
+}
+.message {
+  max-width: 280px;
+  min-width: 100%;
   margin-bottom: 10px;
 }
 </style>

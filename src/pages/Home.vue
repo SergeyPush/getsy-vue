@@ -1,8 +1,5 @@
 <template>
   <div>Home</div>
-  <div>
-    {{ auth }}
-  </div>
 </template>
 
 <script lang="ts">

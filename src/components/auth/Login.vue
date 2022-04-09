@@ -27,6 +27,9 @@
         Password is required
       </small>
     </div>
+    <InlineMessage severity="error" v-if="error" class="message">
+      {{ error }}
+    </InlineMessage>
     <Button
       type="submit"
       label="Log in"
@@ -36,17 +39,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue';
+import { defineComponent, reactive, onUnmounted } from 'vue';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import useVuelidate from '@vuelidate/core';
 import { required, email, helpers } from '@vuelidate/validators';
-import { logIn } from '../../api/user.api';
-import { useMainStore } from '../../store/store';
+import { useAuthStore } from '../../store/auth';
+import { storeToRefs } from 'pinia';
+import InlineMessage from 'primevue/inlinemessage';
 
 export default defineComponent({
-  components: { InputText, Button },
+  components: { InputText, Button, InlineMessage },
   setup(_, context) {
+    const auth = useAuthStore();
+    const { error } = storeToRefs(auth);
+
     const formData = reactive({
       email: '',
       password: '',
@@ -69,30 +76,38 @@ export default defineComponent({
       if (isInValid) {
         return;
       }
-
-      await logIn(formData);
-      formData.email = '';
-      formData.password = '';
-      v$.value.$reset();
-      context.emit('closeDialog');
+      await auth.logIn(formData);
+      if (auth.isAuthenticated) {
+        formData.email = '';
+        formData.password = '';
+        v$.value.$reset();
+        context.emit('closeDialog');
+      }
     };
-    return { formData, submitForm, v$ };
+    onUnmounted(() => auth.clearError());
+    return { formData, submitForm, v$, error };
   },
 });
 </script>
 
 <style lang="scss" scoped>
 .container {
-  min-width: 300px;
+  min-width: 100%;
   display: flex;
   flex-direction: column;
 }
 .button {
   margin-left: auto;
 }
+.message {
+  max-width: 280px;
+  width: 100%;
+  margin-bottom: 10px;
+}
 
 .field {
   width: 100%;
+  min-width: 280px;
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
