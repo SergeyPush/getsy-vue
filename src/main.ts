@@ -1,5 +1,6 @@
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
+import { VueQueryPlugin } from 'vue-query';
 import App from './App.vue';
 import router from './router/router';
 import PrimeVue from 'primevue/config';
@@ -13,6 +14,7 @@ const app = createApp(App);
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
 app.use(pinia);
+app.use(VueQueryPlugin);
 app.use(router);
 app.use(PrimeVue);
 app.mount('#app');

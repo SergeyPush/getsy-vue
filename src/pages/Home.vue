@@ -1,24 +1,30 @@
 <template>
   <Container>
-    <div class="grid">
-      <div class="col-4">1</div>
-      <div class="col-4">2</div>
-      <div class="col-4">3</div>
-      <div class="col-4">4</div>
-    </div>
+    <ProductList>
+      <ProductCard
+        v-for="product of data"
+        :key="product.id"
+        :product="product"
+      />
+    </ProductList>
   </Container>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import Container from '../components/Container.vue';
+import { useGetAllProducts } from '../api/product.queries';
+import ProductCard from '../components/product/ProductCard.vue';
+import ProductList from '../components/product/ProductList.vue';
 
 export default defineComponent({
   setup() {
-    return {};
+    const { data, error } = useGetAllProducts('product');
+
+    return { data, error };
   },
-  components: { Container },
+  components: { Container, ProductCard, ProductList },
 });
 </script>
 
-<style scoped></style>
+<style scoped lang="scss"></style>

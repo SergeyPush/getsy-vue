@@ -4,10 +4,14 @@
       <div class="container">
         <router-link :to="{ name: 'home' }" class="logo">Getsy</router-link>
         <div class="menu">
-          <router-link :to="{ name: 'products' }" class="link"
+          <router-link
+            :to="{ name: 'products', query: { type: 'product' } }"
+            class="link"
             >Products</router-link
           >
-          <router-link :to="{ name: 'services' }" class="link"
+          <router-link
+            :to="{ name: 'services', query: { type: 'service' } }"
+            class="link"
             >Services</router-link
           >
         </div>
