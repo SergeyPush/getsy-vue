@@ -21,22 +21,26 @@ export const createProduct = async (formData: any) => {
 
 export const getAllProducts = async (type?: string) => {
   try {
-    const res = await api.get('/products');
+    const res = await api.get('/products', { params: { type } });
     return res.data;
   } catch (error) {
     throw new AxiosErrorMessage(error as AxiosError).message;
   }
 };
 
-export const createNewProduct = async (formData: any) => {
+export const getProduct = async (id: number) => {
   try {
-    const res = await api.post('/products', {
-      ...formData,
-    });
-
-    return res;
+    const res = await api.get(`/products/${id}`);
+    return res.data;
   } catch (error) {
-    const err = error as AxiosError;
-    return err.response?.data?.message;
+    throw new Error('Product not found').message;
+  }
+};
+
+export const deleteProdcut = async (id: number) => {
+  try {
+    await api.delete(`/products/${id}`);
+  } catch (error) {
+    throw new Error('Something went wrong').message;
   }
 };

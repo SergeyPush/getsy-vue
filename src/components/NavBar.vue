@@ -16,7 +16,7 @@
           >
         </div>
         <div class="user">
-          <i class="pi pi-user icon"></i>
+          <i class="pi pi-user icon" v-if="auth.firstName"></i>
           <p class="username">
             {{ auth.firstName }}
           </p>

@@ -3,4 +3,5 @@ export enum RouterPaths {
   SERVICES = '/services',
   PRODUCTS = '/products',
   CREATE = '/create',
+  PRODUCT = '/products/:id',
 }

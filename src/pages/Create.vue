@@ -11,7 +11,6 @@
         >
           {{ err }}
         </Message>
-        <!-- {{ errorMessages }} -->
         <label for="title">Product type</label>
         <Dropdown
           v-model="formData.type"
@@ -32,25 +31,40 @@
         />
       </div>
       <div class="field">
-        <label for="title">Description</label>
-        <Editor v-model="formData.description" editorStyle="height: 320px" />
+        <label for="eritor">Description</label>
+        <Editor
+          v-model="formData.description"
+          editorStyle="height: 320px"
+          id="editor"
+        />
       </div>
       <div class="field">
-        <label for="title">Features</label>
-        <Chips v-model="formData.features" class="p-inputtext-sm" />
+        <label for="chips">Features</label>
+        <Chips v-model="formData.features" class="p-inputtext-sm" id="chips" />
       </div>
-
-      <div class="field col-12 md:col-3">
-        <label for="locale-us">United States Locale</label>
-        <InputNumber
-          id="locale-us"
-          v-model="formData.price"
-          mode="decimal"
-          locale="en-US"
-          autocomplete="off"
-          :minFractionDigits="2"
-          class="p-inputtext-sm"
-        />
+      <div class="column">
+        <div class="field col-12 md:col-3">
+          <label for="locale-us">Price</label>
+          <InputNumber
+            id="locale-us"
+            v-model="formData.price"
+            mode="decimal"
+            locale="en-US"
+            autocomplete="off"
+            :minFractionDigits="2"
+            class="p-inputtext-sm"
+          />
+        </div>
+        <div class="field col-12 md:col-3" v-if="formData.type === 'product'">
+          <label for="quantity">Available quantity</label>
+          <InputNumber
+            id="quantity"
+            v-model="formData.quantity"
+            mode="decimal"
+            autocomplete="off"
+            class="p-inputtext-sm"
+          />
+        </div>
       </div>
       <Button type="submit" label="Create Product" class="p-button-sm button" />
     </form>
@@ -95,6 +109,7 @@ export default defineComponent({
       description: '',
       features: undefined,
       price: null,
+      quantity: 1,
     });
 
     const { mutate, error, data, isSuccess } = useCreateProduct();
@@ -117,6 +132,12 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+.column {
+  display: flex;
+}
+.column > div {
+  margin-right: 30px;
+}
 .field {
   display: flex;
   flex-direction: column;

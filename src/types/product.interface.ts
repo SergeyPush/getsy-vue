@@ -5,4 +5,5 @@ export interface ProductInterface {
   description: string;
   price: number | null;
   features: string[] | undefined;
+  quantity: number;
 }

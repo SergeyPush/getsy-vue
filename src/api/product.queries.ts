@@ -1,5 +1,10 @@
 import { useMutation, useQuery } from 'vue-query';
-import { createProduct, getAllProducts } from './product.api';
+import {
+  createProduct,
+  getAllProducts,
+  getProduct,
+  deleteProdcut,
+} from './product.api';
 import { ProductInterface } from '../types/product.interface';
 
 export function useCreateProduct() {
@@ -8,8 +13,18 @@ export function useCreateProduct() {
   });
 }
 
-export const useGetAllProducts = (type: string) => {
+export const useGetAllProducts = (type?: string) => {
   return useQuery(['products', type], () => getAllProducts(type), {
     retry: 1,
+  });
+};
+
+export const useGetProduct = (id: number) => {
+  return useQuery(['product', id], () => getProduct(id), { retry: 1 });
+};
+
+export const useDeleteProduct = () => {
+  return useMutation((id) => deleteProdcut(id), {
+    onMutate: (vars: number) => {},
   });
 };

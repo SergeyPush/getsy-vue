@@ -19,7 +19,7 @@ import ProductList from '../components/product/ProductList.vue';
 
 export default defineComponent({
   setup() {
-    const { data, error } = useGetAllProducts('product');
+    const { data, error } = useGetAllProducts();
 
     return { data, error };
   },
