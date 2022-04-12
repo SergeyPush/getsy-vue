@@ -1,6 +1,7 @@
 <template>
   <Container>
     <form class="form p-fluid" @submit.prevent="onFormSubmit">
+      {{ data }}
       <div class="field">
         <Message
           v-if="error"
@@ -112,10 +113,10 @@ export default defineComponent({
       quantity: 1,
     });
 
-    const { mutate, error, data, isSuccess } = useCreateProduct();
+    const { error, data, isSuccess, mutateAsync } = useCreateProduct();
     const onFormSubmit = async () => {
-      mutate(formData);
-      if (isSuccess) {
+      await mutateAsync(formData);
+      if (isSuccess.value) {
         router.push('/');
       }
     };

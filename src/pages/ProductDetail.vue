@@ -1,5 +1,6 @@
 <template>
   <Container>
+    <ConfirmDialog></ConfirmDialog>
     <div class="controls">
       <Button
         type="button"
@@ -12,10 +13,10 @@
         label="Delete"
         icon="pi pi-trash"
         class="p-button-sm button delete"
-        @click="deleteProduct"
+        @click="confirmDialog"
       />
     </div>
-    <div class="p-fluid">
+    <div class="p-fluid" v-if="product">
       <p>author</p>
       <h2 class="title item">{{ product.title }}</h2>
       <p class="description item" v-html="product.description" />
@@ -39,30 +40,44 @@ import { defineComponent } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useGetProduct, useDeleteProduct } from '../api/product.queries';
 import Button from 'primevue/button';
+import ConfirmDialog from 'primevue/confirmdialog';
+import { useConfirm } from 'primevue/useconfirm';
 
 export default defineComponent({
   components: {
     Container,
     Chip,
     Button,
+    ConfirmDialog,
   },
   setup() {
     const { params } = useRoute();
     const router = useRouter();
     const id = Number(params?.id);
+    const confirm = useConfirm();
     const { isSuccess, mutate } = useDeleteProduct();
 
     const { data: product, isLoading, error } = useGetProduct(id);
 
     const deleteProduct = async () => {
       mutate(id);
-
       if (isSuccess) {
         router.push('/');
       }
     };
+    const confirmDialog = () => {
+      confirm.require({
+        message: 'Do you want to delete this item?',
+        header: 'Delete Confirmation',
+        icon: 'pi pi-info-circle',
+        acceptClass: 'p-button-danger',
+        accept: () => {
+          deleteProduct();
+        },
+      });
+    };
 
-    return { product, deleteProduct };
+    return { product, confirmDialog };
   },
 });
 </script>
