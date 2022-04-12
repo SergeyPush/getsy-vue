@@ -1,12 +1,19 @@
 <template>
   <Container>
     <ConfirmDialog></ConfirmDialog>
+    <EditProduct
+      :visible="displayDialog"
+      :data="product"
+      @closeDialog="displayDialog = false"
+      v-if="product"
+    ></EditProduct>
     <div class="controls">
       <Button
         type="button"
         label="Edit"
         icon="pi pi-pencil"
         class="p-button-sm button"
+        @click="displayDialog = true"
       />
       <Button
         type="button"
@@ -36,12 +43,13 @@
 <script lang="ts">
 import Container from '../components/Container.vue';
 import Chip from 'primevue/chip';
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useGetProduct, useDeleteProduct } from '../api/product.queries';
 import Button from 'primevue/button';
 import ConfirmDialog from 'primevue/confirmdialog';
 import { useConfirm } from 'primevue/useconfirm';
+import EditProduct from '../components/product/EditProduct.vue';
 
 export default defineComponent({
   components: {
@@ -49,6 +57,7 @@ export default defineComponent({
     Chip,
     Button,
     ConfirmDialog,
+    EditProduct,
   },
   setup() {
     const { params } = useRoute();
@@ -56,8 +65,8 @@ export default defineComponent({
     const id = Number(params?.id);
     const confirm = useConfirm();
     const { isSuccess, mutate } = useDeleteProduct();
-
-    const { data: product, isLoading, error } = useGetProduct(id);
+    const { data: product, refetch } = useGetProduct(id);
+    const displayDialog = ref(false);
 
     const deleteProduct = async () => {
       mutate(id);
@@ -77,7 +86,7 @@ export default defineComponent({
       });
     };
 
-    return { product, confirmDialog };
+    return { product, confirmDialog, displayDialog, close };
   },
 });
 </script>

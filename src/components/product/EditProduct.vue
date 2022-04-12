@@ -1,8 +1,15 @@
 <template>
-  <Container>
-    <form class="form p-fluid" @submit.prevent="onFormSubmit">
+  <Dialog
+    :header="`Change ${data.type}`"
+    v-model:visible="visible"
+    :style="{ width: '50vw' }"
+    :modal="true"
+    :closable="false"
+    v-if="formData"
+  >
+    <form class="form p-fluid" @submit.prevent="">
       <div class="field">
-        <Message
+        <!-- <Message
           v-if="error"
           severity="error"
           v-for="(err, idx) of error"
@@ -10,16 +17,8 @@
           :closable="false"
         >
           {{ err }}
-        </Message>
-        <label for="title">Product type</label>
-        <Dropdown
-          v-model="formData.type"
-          :options="productTypes"
-          optionLabel="name"
-          optionValue="value"
-          placeholder="Select Type"
-          class="p-inputtext-sm"
-        />
+        </Message> -->
+        <!-- {{ formData }} -->
       </div>
       <div class="field">
         <label for="title">Title</label>
@@ -34,7 +33,7 @@
         <label for="eritor">Description</label>
         <Editor
           v-model="formData.description"
-          editorStyle="height: 320px"
+          editorStyle="height: 140px"
           id="editor"
         />
       </div>
@@ -66,85 +65,74 @@
           />
         </div>
       </div>
-      <Button type="submit" label="Create Product" class="p-button-sm button" />
     </form>
-  </Container>
+    <template #footer>
+      <Button
+        label="Cancel"
+        icon="pi pi-times"
+        @click="closeDialog"
+        class="p-button-text p-button-sm"
+      />
+      <Button
+        label="Update"
+        icon="pi pi-check"
+        @click="updateProduct"
+        autofocus
+        class="p-button-sm"
+      />
+    </template>
+  </Dialog>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive } from 'vue';
-import Container from '../components/Container.vue';
+import { defineComponent, toRefs, reactive } from 'vue';
+import Dialog from 'primevue/dialog';
+import Button from 'primevue/button';
 import Dropdown from 'primevue/dropdown';
 import InputText from 'primevue/inputtext';
 import InputNumber from 'primevue/inputnumber';
-import Button from 'primevue/button';
 import Editor from 'primevue/editor';
 import Chips from 'primevue/chips';
-import Message from 'primevue/message';
-
-import { useCreateProduct } from '../api/product.queries';
-import { useRouter } from 'vue-router';
+import { useUpdateProduct } from '../../api/product.queries';
+import { QueryClient, useQueryClient } from 'vue-query';
 
 export default defineComponent({
   components: {
-    Container,
-    Dropdown,
-    InputText,
+    Dialog,
     Button,
+    Dropdown,
+    InputNumber,
+    InputText,
     Editor,
     Chips,
-    InputNumber,
-    Message,
   },
+  props: ['visible', 'data'],
+  setup(props, { emit }) {
+    const { data } = toRefs(props);
+    const formData = reactive({ ...data.value });
+    const closeDialog = () => {
+      emit('closeDialog');
+    };
+    const { mutateAsync, isSuccess } = useUpdateProduct();
+    const client = useQueryClient();
 
-  setup() {
-    const router = useRouter();
-    const productTypes = ref([
-      { name: 'Product', value: 'product' },
-      { name: 'Service', value: 'service' },
-    ]);
-    const formData = reactive({
-      type: '',
-      title: '',
-      description: '',
-      features: undefined,
-      price: null,
-      quantity: 1,
-    });
-
-    const { error, data, isSuccess, mutateAsync } = useCreateProduct();
-    const onFormSubmit = async () => {
-      await mutateAsync(formData);
-      if (isSuccess.value) {
-        router.push('/');
+    const updateProduct = async () => {
+      await mutateAsync(formData, {
+        onSuccess: () => {
+          client.invalidateQueries('product');
+        },
+      });
+      if (isSuccess) {
+        closeDialog();
       }
     };
-
-    return {
-      productTypes,
-      formData,
-      onFormSubmit,
-      data,
-      error,
-    };
+    return { closeDialog, data, updateProduct, formData };
   },
 });
 </script>
 
 <style scoped lang="scss">
-.column {
-  display: flex;
-}
-.column > div {
-  margin-right: 30px;
-}
 .field {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 15px;
-}
-.button {
-  display: block;
-  margin-left: auto;
+  margin-bottom: 12px;
 }
 </style>

@@ -19,9 +19,8 @@ import ProductList from '../components/product/ProductList.vue';
 
 export default defineComponent({
   setup() {
-    const { data, error, refetch } = useGetAllProducts();
+    const { data, error } = useGetAllProducts();
 
-    onMounted(() => refetch);
     return { data, error };
   },
   components: { Container, ProductCard, ProductList },

@@ -6,4 +6,5 @@ export interface ProductInterface {
   price: number | null;
   features: string[] | undefined;
   quantity: number;
+  images?: string[];
 }

@@ -6,6 +6,7 @@ import {
   deleteProdcut,
 } from './product.api';
 import { ProductInterface } from '../types/product.interface';
+import { updateProduct } from './product.api';
 
 const queryClient = new QueryClient();
 
@@ -19,15 +20,20 @@ export function useCreateProduct() {
 }
 
 export const useGetAllProducts = (type?: string) => {
-  return useQuery(['products', type], () => getAllProducts(type), {
+  return useQuery('products', () => getAllProducts(type), {
     retry: 2,
     refetchOnMount: true,
     retryDelay: 2000,
+    cacheTime: 2000,
   });
 };
 
 export const useGetProduct = (id: number) => {
-  return useQuery(['product', id], () => getProduct(id), { retry: 1 });
+  return useQuery('product', () => getProduct(id), {
+    retry: 2,
+    refetchOnMount: true,
+    retryDelay: 2000,
+  });
 };
 
 export const useDeleteProduct = () => {
@@ -36,5 +42,11 @@ export const useDeleteProduct = () => {
     onSuccess: () => {
       queryClient.invalidateQueries('products');
     },
+  });
+};
+
+export const useUpdateProduct = () => {
+  return useMutation((data) => updateProduct(data), {
+    onMutate: (vars: ProductInterface) => {},
   });
 };

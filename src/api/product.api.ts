@@ -1,5 +1,6 @@
 import api from './api';
 import { AxiosError } from 'axios';
+import { ProductInterface } from '../types/product.interface';
 
 class AxiosErrorMessage extends Error {
   constructor(message: AxiosError) {
@@ -42,5 +43,16 @@ export const deleteProdcut = async (id: number) => {
     await api.delete(`/products/${id}`);
   } catch (error) {
     throw new Error('Something went wrong').message;
+  }
+};
+
+export const updateProduct = async (data: ProductInterface) => {
+  const { id, ...rest } = data;
+  try {
+    await api.patch(`/products/${id}`, {
+      ...rest,
+    });
+  } catch (error) {
+    throw new Error('Incorrecet data').message;
   }
 };
