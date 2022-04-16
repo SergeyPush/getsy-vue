@@ -65,7 +65,7 @@ export default defineComponent({
     const id = Number(params?.id);
     const confirm = useConfirm();
     const { isSuccess, mutate } = useDeleteProduct();
-    const { data: product, refetch } = useGetProduct(id);
+    const { data: product } = useGetProduct(id);
     const displayDialog = ref(false);
 
     const deleteProduct = async () => {

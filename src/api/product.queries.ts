@@ -33,6 +33,7 @@ export const useGetProduct = (id: number) => {
     retry: 2,
     refetchOnMount: true,
     retryDelay: 2000,
+    cacheTime: 2000,
   });
 };
 

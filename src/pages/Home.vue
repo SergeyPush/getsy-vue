@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from 'vue';
+import { defineComponent } from 'vue';
 import Container from '../components/Container.vue';
 import { useGetAllProducts } from '../api/product.queries';
 import ProductCard from '../components/product/ProductCard.vue';
