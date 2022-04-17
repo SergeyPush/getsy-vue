@@ -1,6 +1,10 @@
 <template>
   <Container>
-    <ConfirmDialog></ConfirmDialog>
+    <Confirm
+      :displayModal="confirmDialog"
+      @delete="deleteProduct"
+      @close="confirmDialog = false"
+    ></Confirm>
     <EditProduct
       :visible="displayDialog"
       :data="product"
@@ -15,11 +19,11 @@
         </span>
         <span>Edit</span>
       </button>
-      <button class="button is-danger" @click="confirmDialog">
+      <button class="button is-danger" @click="confirmDialog = true">
         <span class="icon">
           <i class="fa fa-trash-o"></i>
         </span>
-        <span>Edit</span>
+        <span>Delete</span>
       </button>
     </div>
     <div class="p-fluid" v-if="product">
@@ -29,63 +33,47 @@
       <p class="price item">Price: {{ product.price }}$</p>
       <p class="availability">Available in stock: {{ product.quantity }}</p>
       <p class="features">Highlights:</p>
-      <Chip
-        v-for="(chip, idx) of product.features"
-        :label="chip"
-        :key="idx"
-        class="chip"
-      />
+      <ul>
+        <li v-for="(feature, idx) of product.features" :key="idx">
+          - {{ feature }}
+        </li>
+      </ul>
     </div>
   </Container>
 </template>
 
 <script lang="ts">
 import Container from '../components/Container.vue';
-import Chip from 'primevue/chip';
+import EditProduct from '../components/product/EditProduct.vue';
+import Confirm from '../components/product/Confirm.vue';
 import { defineComponent, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useGetProduct, useDeleteProduct } from '../api/product.queries';
-import Button from 'primevue/button';
-import ConfirmDialog from 'primevue/confirmdialog';
-import { useConfirm } from 'primevue/useconfirm';
-import EditProduct from '../components/product/EditProduct.vue';
 
 export default defineComponent({
   components: {
     Container,
-    Chip,
-    Button,
-    ConfirmDialog,
     EditProduct,
+    Confirm,
   },
   setup() {
     const { params } = useRoute();
     const router = useRouter();
     const id = Number(params?.id);
-    const confirm = useConfirm();
     const { isSuccess, mutate } = useDeleteProduct();
     const { data: product } = useGetProduct(id);
     const displayDialog = ref(false);
+    const confirmDialog = ref(false);
 
     const deleteProduct = async () => {
       mutate(id);
       if (isSuccess) {
         router.push('/');
+        confirmDialog.value = false;
       }
     };
-    const confirmDialog = () => {
-      confirm.require({
-        message: 'Do you want to delete this item?',
-        header: 'Delete Confirmation',
-        icon: 'pi pi-info-circle',
-        acceptClass: 'p-button-danger',
-        accept: () => {
-          deleteProduct();
-        },
-      });
-    };
 
-    return { product, confirmDialog, displayDialog, close };
+    return { product, confirmDialog, displayDialog, deleteProduct };
   },
 });
 </script>
@@ -104,14 +92,6 @@ export default defineComponent({
   margin-bottom: 10px;
   font-size: 20px;
 }
-.features {
-  font-weight: 500;
-  margin-bottom: 6px;
-}
-
-.chip:not(:last-child) {
-  margin-right: 5px;
-}
 .availability {
   margin-bottom: 8px;
 }
@@ -126,5 +106,8 @@ export default defineComponent({
     outline-color: var(--red-400);
     border-color: var(--red-400);
   }
+}
+.features {
+  font-weight: 500;
 }
 </style>

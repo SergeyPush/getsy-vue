@@ -14,7 +14,6 @@
               />
               <span class="file-cta">
                 <span class="file-icon">
-                  <!-- <i class="fas fa-upload"></i> -->
                   <i class="fa fa-cloud-upload"></i>
                 </span>
                 <span class="file-label"> Choose a file… </span>
@@ -89,7 +88,7 @@
               <input
                 class="input is-primary"
                 id="quantity"
-                type="text"
+                type="number"
                 placeholder="Enter quantity"
                 v-model="formData.quantity"
               />
@@ -128,11 +127,11 @@ export default defineComponent({
     ]);
     const types = reactive(['product', 'service']);
     const formData = reactive<CreateProductInterface>({
-      type: 'product',
-      title: 'Some product',
-      description: 'Some description',
-      features: ['test1', 'test2'],
-      price: 100,
+      type: '',
+      title: '',
+      description: '',
+      features: '',
+      price: null,
       quantity: 1,
     });
     const fileList = ref<string[]>([]);
