@@ -6,22 +6,21 @@
       :data="product"
       @closeDialog="displayDialog = false"
       v-if="product"
-    ></EditProduct>
+    >
+    </EditProduct>
     <div class="controls">
-      <Button
-        type="button"
-        label="Edit"
-        icon="pi pi-pencil"
-        class="p-button-sm button"
-        @click="displayDialog = true"
-      />
-      <Button
-        type="button"
-        label="Delete"
-        icon="pi pi-trash"
-        class="p-button-sm button delete"
-        @click="confirmDialog"
-      />
+      <button class="button is-success" @click="displayDialog = true">
+        <span class="icon">
+          <i class="fa fa-pencil"></i>
+        </span>
+        <span>Edit</span>
+      </button>
+      <button class="button is-danger" @click="confirmDialog">
+        <span class="icon">
+          <i class="fa fa-trash-o"></i>
+        </span>
+        <span>Edit</span>
+      </button>
     </div>
     <div class="p-fluid" v-if="product">
       <p>author</p>

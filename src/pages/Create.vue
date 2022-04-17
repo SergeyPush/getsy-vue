@@ -14,7 +14,8 @@
               />
               <span class="file-cta">
                 <span class="file-icon">
-                  <i class="fas fa-upload"></i>
+                  <!-- <i class="fas fa-upload"></i> -->
+                  <i class="fa fa-cloud-upload"></i>
                 </span>
                 <span class="file-label"> Choose a file… </span>
               </span>
@@ -156,7 +157,6 @@ export default defineComponent({
 
     const onFormSubmit = async () => {
       formData.features = unref(getFeatures);
-      console.log(unref(getFeatures));
 
       Array.from(Object.keys(formData)).forEach((key: any) => {
         fd.append(key, formData[key]);
