@@ -8,3 +8,7 @@ export interface ProductInterface {
   quantity: number;
   images?: FormDataEntryValue[];
 }
+
+export interface CreateProductInterface {
+  [key: string]: any;
+}

@@ -5,14 +5,17 @@ import {
   getProduct,
   deleteProdcut,
 } from './product.api';
-import { ProductInterface } from '../types/product.interface';
+import {
+  ProductInterface,
+  CreateProductInterface,
+} from '../types/product.interface';
 import { updateProduct } from './product.api';
 
 const queryClient = new QueryClient();
 
 export function useCreateProduct() {
   return useMutation((data) => createProduct(data), {
-    onMutate: (vars: ProductInterface) => {},
+    onMutate: (vars: FormData) => {},
     onSuccess: () => {
       queryClient.invalidateQueries('products');
     },

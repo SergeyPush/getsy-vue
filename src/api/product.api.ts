@@ -1,6 +1,9 @@
 import api from './api';
 import { AxiosError } from 'axios';
-import { ProductInterface } from '../types/product.interface';
+import {
+  ProductInterface,
+  CreateProductInterface,
+} from '../types/product.interface';
 
 class AxiosErrorMessage extends Error {
   constructor(message: AxiosError) {
@@ -9,10 +12,10 @@ class AxiosErrorMessage extends Error {
   }
 }
 
-export const createProduct = async (formData: any) => {
+export const createProduct = async (formData: FormData) => {
   try {
-    const res = await api.post('/products', {
-      ...formData,
+    const res = await api.post('/products', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
     });
     return res.data;
   } catch (error) {

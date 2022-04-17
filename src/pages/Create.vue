@@ -1,100 +1,122 @@
 <template>
   <Container>
-    <form class="form p-fluid" @submit.prevent="onFormSubmit">
-      <div class="field">
-        <Message
-          v-if="error"
-          severity="error"
-          v-for="(err, idx) of error"
-          :key="idx"
-          :closable="false"
-        >
-          {{ err }}
-        </Message>
-        <label for="title">Product type</label>
-        <Dropdown
-          v-model="formData.type"
-          :options="productTypes"
-          optionLabel="name"
-          optionValue="value"
-          placeholder="Select Type"
-          class="p-inputtext-sm"
-        />
-      </div>
-      <div class="field">
-        <label for="title">Title</label>
-        <InputText
-          id="title"
-          aria-describedby="title-help"
-          class="p-inputtext-sm"
-          v-model="formData.title"
-        />
-      </div>
-      <div class="field">
-        <label for="eritor">Description</label>
-        <Editor
-          v-model="formData.description"
-          editorStyle="height: 320px"
-          id="editor"
-        />
-      </div>
-      <div class="field">
-        <label for="chips">Features</label>
-        <Chips v-model="formData.features" class="p-inputtext-sm" id="chips" />
-      </div>
+    <div class="columns">
       <div class="column">
-        <div class="field col-12 md:col-3">
-          <label for="locale-us">Price</label>
-          <InputNumber
-            id="locale-us"
-            v-model="formData.price"
-            mode="decimal"
-            locale="en-US"
-            autocomplete="off"
-            :minFractionDigits="2"
-            class="p-inputtext-sm"
-          />
-        </div>
-        <div class="field col-12 md:col-3" v-if="formData.type === 'product'">
-          <label for="quantity">Available quantity</label>
-          <InputNumber
-            id="quantity"
-            v-model="formData.quantity"
-            mode="decimal"
-            autocomplete="off"
-            class="p-inputtext-sm"
-          />
-        </div>
+        <form @submit.prevent="onFormSubmit" class="form">
+          <div class="file has-name is-boxed mb-4 is-primary">
+            <label class="file-label">
+              <input
+                class="file-input"
+                type="file"
+                name="images"
+                multiple
+                @change="onFileUpload($event)"
+              />
+              <span class="file-cta">
+                <span class="file-icon">
+                  <i class="fas fa-upload"></i>
+                </span>
+                <span class="file-label"> Choose a file… </span>
+              </span>
+              <span
+                class="file-name"
+                v-for="(file, idx) in fileList"
+                :key="idx"
+              >
+                {{ file }}
+              </span>
+            </label>
+          </div>
+          <div class="field">
+            <label>Select type</label>
+            <div class="select is-primary">
+              <select v-model="formData.type">
+                <option selected disabled>Type</option>
+                <option
+                  v-for="({ name, value }, idx) of productTypes"
+                  :key="idx"
+                  :value="value"
+                >
+                  {{ name }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="title">Title</label>
+            <input
+              class="input is-primary"
+              id="title"
+              type="text"
+              placeholder="Enter title"
+              v-model="formData.title"
+            />
+          </div>
+          <div class="field">
+            <label for="eritor">Description</label>
+            <textarea
+              class="textarea is-primary"
+              placeholder="Enter description"
+              v-model="formData.description"
+              id="editor"
+            ></textarea>
+          </div>
+          <div class="field">
+            <label for="chips">Features</label>
+            <input
+              class="input is-primary"
+              id="chips"
+              type="text"
+              placeholder="Enter features"
+              v-model="formData.features"
+            />
+          </div>
+          <div class="columns">
+            <div class="column">
+              <label for="price">Price</label>
+              <input
+                class="input is-primary"
+                id="price"
+                type="text"
+                placeholder="Enter price"
+                v-model="formData.price"
+              />
+            </div>
+            <div class="column" v-if="formData.type === 'product'">
+              <label for="quantity">Available quantity</label>
+              <input
+                class="input is-primary"
+                id="quantity"
+                type="text"
+                placeholder="Enter quantity"
+                v-model="formData.quantity"
+              />
+            </div>
+          </div>
+          <button class="button is-primary" type="submit">
+            Create product
+          </button>
+        </form>
       </div>
-      <Button type="submit" label="Create Product" class="p-button-sm button" />
-    </form>
+    </div>
   </Container>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive } from 'vue';
+import { defineComponent, ref, reactive, unref } from 'vue';
 import Container from '../components/Container.vue';
-import Dropdown from 'primevue/dropdown';
-import InputText from 'primevue/inputtext';
-import InputNumber from 'primevue/inputnumber';
-import Button from 'primevue/button';
-import Editor from 'primevue/editor';
-import Chips from 'primevue/chips';
-import Message from 'primevue/message';
+import Dropdown from '../components/Dropdown.vue';
 
 import { useCreateProduct } from '../api/product.queries';
 import { useRouter } from 'vue-router';
+import { CreateProductInterface } from '../types/product.interface';
+import { computed } from '@vue/reactivity';
 
 export default defineComponent({
   components: {
     Container,
     Dropdown,
-    InputText,
-    Button,
-    Editor,
-    Chips,
-    InputNumber,
-    Message,
   },
 
   setup() {
@@ -103,18 +125,44 @@ export default defineComponent({
       { name: 'Product', value: 'product' },
       { name: 'Service', value: 'service' },
     ]);
-    const formData = reactive({
-      type: '',
-      title: '',
-      description: '',
-      features: undefined,
-      price: null,
+    const types = reactive(['product', 'service']);
+    const formData = reactive<CreateProductInterface>({
+      type: 'product',
+      title: 'Some product',
+      description: 'Some description',
+      features: ['test1', 'test2'],
+      price: 100,
       quantity: 1,
     });
+    const fileList = ref<string[]>([]);
+
+    const fd = new FormData();
 
     const { error, data, isSuccess, mutateAsync } = useCreateProduct();
+
+    const getFeatures = computed(() =>
+      typeof formData.features === 'string'
+        ? formData.features.split(',').map((item) => item.trim())
+        : formData.features
+    );
+
+    const onFileUpload = (event: any) => {
+      const files = event.target.files;
+      Array.from(Array(files.length).keys()).forEach((key: any) => {
+        fd.append('images', files[key], files[key].name);
+        fileList.value.push(files[key].name);
+      });
+    };
+
     const onFormSubmit = async () => {
-      await mutateAsync(formData);
+      formData.features = unref(getFeatures);
+      console.log(unref(getFeatures));
+
+      Array.from(Object.keys(formData)).forEach((key: any) => {
+        fd.append(key, formData[key]);
+      });
+
+      await mutateAsync(fd);
       if (isSuccess.value) {
         router.push('/');
       }
@@ -124,20 +172,18 @@ export default defineComponent({
       productTypes,
       formData,
       onFormSubmit,
+      onFileUpload,
       data,
       error,
+      fileList,
+      types,
+      getFeatures,
     };
   },
 });
 </script>
 
 <style scoped lang="scss">
-.column {
-  display: flex;
-}
-.column > div {
-  margin-right: 30px;
-}
 .field {
   display: flex;
   flex-direction: column;

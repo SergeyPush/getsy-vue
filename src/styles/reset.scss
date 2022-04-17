@@ -44,6 +44,9 @@ a:not([class]) {
 a {
   text-decoration: none;
 }
+select {
+  width: 100%;
+}
 
 img {
   max-width: 100%;
