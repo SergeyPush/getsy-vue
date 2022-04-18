@@ -2,6 +2,16 @@
   <Container>
     <div class="columns">
       <div class="column">
+        <article
+          class="message is-danger"
+          v-if="error"
+          v-for="(err, idx) of error"
+          :key="idx"
+        >
+          <div class="message-body">
+            {{ err }}
+          </div>
+        </article>
         <form @submit.prevent="onFormSubmit" class="form">
           <div class="file has-name is-boxed mb-4 is-primary">
             <label class="file-label">

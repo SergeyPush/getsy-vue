@@ -1,117 +1,89 @@
 <template>
-  <Dialog
-    :header="`Change ${data.type}`"
-    v-model:visible="visible"
-    :style="{ width: '50vw' }"
-    :modal="true"
-    :closable="false"
-    v-if="formData"
-  >
-    <form class="form p-fluid" @submit.prevent="">
-      <div class="field">
-        <!-- <Message
-          v-if="error"
-          severity="error"
-          v-for="(err, idx) of error"
-          :key="idx"
-          :closable="false"
-        >
-          {{ err }}
-        </Message> -->
-        <!-- {{ formData }} -->
-      </div>
-      <div class="field">
-        <label for="title">Title</label>
-        <InputText
-          id="title"
-          aria-describedby="title-help"
-          class="p-inputtext-sm"
-          v-model="formData.title"
-        />
-      </div>
-      <div class="field">
-        <label for="eritor">Description</label>
-        <Editor
-          v-model="formData.description"
-          editorStyle="height: 140px"
-          id="editor"
-        />
-      </div>
-      <div class="field">
-        <label for="chips">Features</label>
-        <Chips v-model="formData.features" class="p-inputtext-sm" id="chips" />
-      </div>
-      <div class="column">
-        <div class="field col-12 md:col-3">
-          <label for="locale-us">Price</label>
-          <InputNumber
-            id="locale-us"
-            v-model="formData.price"
-            mode="decimal"
-            locale="en-US"
-            autocomplete="off"
-            :minFractionDigits="2"
-            class="p-inputtext-sm"
+  <div class="modal" :class="[visible && 'is-active']">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Modal title</p>
+        <button class="delete" aria-label="close" @click="closeDialog"></button>
+      </header>
+      <section class="modal-card-body">
+        {{ formData }}
+        <div class="field">
+          <label for="title">Title</label>
+          <input
+            class="input is-primary"
+            id="title"
+            type="text"
+            placeholder="Enter title"
+            v-model="formData.title"
           />
         </div>
-        <div class="field col-12 md:col-3" v-if="formData.type === 'product'">
-          <label for="quantity">Available quantity</label>
-          <InputNumber
-            id="quantity"
-            v-model="formData.quantity"
-            mode="decimal"
-            autocomplete="off"
-            class="p-inputtext-sm"
+        <div class="field">
+          <label for="eritor">Description</label>
+          <textarea
+            class="textarea is-primary"
+            placeholder="Enter description"
+            v-model="formData.description"
+            id="editor"
+          ></textarea>
+        </div>
+        <div class="field">
+          <label for="chips">Features</label>
+          <input
+            class="input is-primary"
+            id="chips"
+            type="text"
+            placeholder="Enter features"
+            v-model="formData.features"
           />
         </div>
-      </div>
-    </form>
-    <template #footer>
-      <Button
-        label="Cancel"
-        icon="pi pi-times"
-        @click="closeDialog"
-        class="p-button-text p-button-sm"
-      />
-      <Button
-        label="Update"
-        icon="pi pi-check"
-        @click="updateProduct"
-        autofocus
-        class="p-button-sm"
-      />
-    </template>
-  </Dialog>
+        <div class="columns">
+          <div class="column">
+            <label for="price">Price</label>
+            <input
+              class="input is-primary"
+              id="price"
+              type="text"
+              placeholder="Enter price"
+              v-model="formData.price"
+            />
+          </div>
+          <div class="column" v-if="formData.type === 'product'">
+            <label for="quantity">Available quantity</label>
+            <input
+              class="input is-primary"
+              id="quantity"
+              type="number"
+              placeholder="Enter quantity"
+              v-model="formData.quantity"
+            />
+          </div>
+        </div>
+      </section>
+      <footer class="modal-card-foot">
+        <button class="button is-success" @click="updateProduct">
+          Save changes
+        </button>
+        <button class="button" @click="closeDialog">Cancel</button>
+      </footer>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, toRefs, reactive } from 'vue';
-import Dialog from 'primevue/dialog';
-import Button from 'primevue/button';
-import Dropdown from 'primevue/dropdown';
-import InputText from 'primevue/inputtext';
-import InputNumber from 'primevue/inputnumber';
-import Editor from 'primevue/editor';
-import Chips from 'primevue/chips';
+import { defineComponent, reactive, toRefs } from 'vue';
 import { useUpdateProduct } from '../../api/product.queries';
-import { QueryClient, useQueryClient } from 'vue-query';
+import { useQueryClient } from 'vue-query';
 
 export default defineComponent({
-  components: {
-    Dialog,
-    Button,
-    Dropdown,
-    InputNumber,
-    InputText,
-    Editor,
-    Chips,
-  },
-  props: ['visible', 'data'],
-  setup(props, { emit }) {
+  props: ['data', 'visible'],
+
+  setup(props, context) {
     const { data } = toRefs(props);
     const formData = reactive({ ...data.value });
+
     const closeDialog = () => {
-      emit('closeDialog');
+      context.emit('close');
     };
     const { mutateAsync, isSuccess } = useUpdateProduct();
     const client = useQueryClient();
@@ -126,13 +98,13 @@ export default defineComponent({
         closeDialog();
       }
     };
-    return { closeDialog, data, updateProduct, formData };
+    return {
+      formData,
+      closeDialog,
+      updateProduct,
+    };
   },
 });
 </script>
 
-<style scoped lang="scss">
-.field {
-  margin-bottom: 12px;
-}
-</style>
+<style scoped></style>

@@ -6,14 +6,13 @@
       @close="confirmDialog = false"
     ></Confirm>
     <EditProduct
-      :visible="displayDialog"
+      :visible="editDialog"
       :data="product"
-      @closeDialog="displayDialog = false"
+      @close="editDialog = false"
       v-if="product"
-    >
-    </EditProduct>
+    ></EditProduct>
     <div class="controls">
-      <button class="button is-success" @click="displayDialog = true">
+      <button class="button is-success" @click="editDialog = true">
         <span class="icon">
           <i class="fa fa-pencil"></i>
         </span>
@@ -27,6 +26,7 @@
       </button>
     </div>
     <div class="p-fluid" v-if="product">
+      <p v-if="isLoading">Loading...</p>
       <p>author</p>
       <h2 class="title item">{{ product.title }}</h2>
       <p class="description item" v-html="product.description" />
@@ -44,26 +44,29 @@
 
 <script lang="ts">
 import Container from '../components/Container.vue';
-import EditProduct from '../components/product/EditProduct.vue';
+import Edit from '../components/product/EditProduct1.vue';
 import Confirm from '../components/product/Confirm.vue';
 import { defineComponent, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useGetProduct, useDeleteProduct } from '../api/product.queries';
+import EditProduct from '../components/product/EditProduct.vue';
 
 export default defineComponent({
   components: {
     Container,
-    EditProduct,
+    Edit,
     Confirm,
+    EditProduct,
   },
   setup() {
     const { params } = useRoute();
     const router = useRouter();
     const id = Number(params?.id);
     const { isSuccess, mutate } = useDeleteProduct();
-    const { data: product } = useGetProduct(id);
+    const { data: product, isLoading } = useGetProduct(id);
     const displayDialog = ref(false);
     const confirmDialog = ref(false);
+    const editDialog = ref(false);
 
     const deleteProduct = async () => {
       mutate(id);
@@ -73,7 +76,14 @@ export default defineComponent({
       }
     };
 
-    return { product, confirmDialog, displayDialog, deleteProduct };
+    return {
+      product,
+      confirmDialog,
+      editDialog,
+      displayDialog,
+      deleteProduct,
+      isLoading,
+    };
   },
 });
 </script>
