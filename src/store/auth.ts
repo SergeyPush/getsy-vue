@@ -10,11 +10,13 @@ export const useAuthStore = defineStore('auth', {
     email: '',
     accessToken: '',
     error: '',
+    isLoading: false,
   }),
 
   actions: {
     async logIn(authData: AuthType) {
       try {
+        this.isLoading = true;
         const { data } = await logIn(authData);
         this.error = '';
         this.firstName = data.firstName;
@@ -24,10 +26,13 @@ export const useAuthStore = defineStore('auth', {
       } catch (error) {
         const err = error as AxiosError;
         this.error = err.response?.data?.message;
+      } finally {
+        this.isLoading = false;
       }
     },
     async signUp(authData: AuthType) {
       try {
+        this.isLoading = true;
         const { data } = await signUp(authData);
         this.firstName = data.firstName;
         this.lastName = data.lastName;
@@ -36,6 +41,8 @@ export const useAuthStore = defineStore('auth', {
       } catch (error) {
         const err = error as AxiosError;
         this.error = err.response?.data?.message;
+      } finally {
+        this.isLoading = false;
       }
     },
     signOut() {

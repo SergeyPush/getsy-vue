@@ -9,7 +9,7 @@
           />
         </figure>
       </div>
-      <div class="card-content">
+      <div class="card-content c-content">
         <div class="media">
           <div class="media-content">
             <p class="title is-4">{{ product.title }}</p>

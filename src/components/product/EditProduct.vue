@@ -7,7 +7,6 @@
         <button class="delete" aria-label="close" @click="closeDialog"></button>
       </header>
       <section class="modal-card-body">
-        {{ formData }}
         <div class="field">
           <label for="title">Title</label>
           <input
@@ -60,7 +59,7 @@
           </div>
         </div>
       </section>
-      <footer class="modal-card-foot">
+      <footer class="modal-card-foot is-justify-content-flex-end">
         <button class="button is-success" @click="updateProduct">
           Save changes
         </button>

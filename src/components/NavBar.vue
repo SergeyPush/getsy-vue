@@ -50,7 +50,7 @@
       <Login v-if="hasAccount" @closeDialog="isDisplayed = false" />
       <SignUp v-if="!hasAccount" @closeDialog="isDisplayed = false" />
 
-      <button class="button" @click="hasAccount = !hasAccount">
+      <button class="button is-ghost" @click="hasAccount = !hasAccount">
         {{ hasAccount ? "Don't have account? " : 'Already has an account?' }}
       </button>
     </Dialog>
@@ -130,14 +130,8 @@ $navBarBackgroundColor: #fff;
   font-size: 15px;
 }
 .button {
-  background-color: transparent;
-  border: none;
-  color: $activeLinkColor;
-  padding: 0;
-  cursor: pointer;
-}
-.router-link-active {
-  text-decoration: underline;
+  text-decoration: none;
+  outline: none;
 }
 .logo {
   font-weight: 600;

@@ -1,62 +1,53 @@
 <template>
   <form class="container" @submit.prevent="submitForm">
-    <div class="field">
-      <label for="email">Email</label>
-      <InputText
-        id="email"
-        type="text"
-        aria-describedby="username2-help"
-        :class="['p-inputtext-sm', 'input', v$.email.$error && 'p-invalid']"
-        autocomplete="off"
-        v-model.lazy="formData.email"
-        :autofocus="true"
-        @change="v$.email.$reset"
-      />
-      <small id="email-help" class="p-error" v-if="v$.email.$error">
-        Email is required
-      </small>
-    </div>
-    <div class="field">
-      <label for="password">Password</label>
-      <InputText
-        id="password"
-        type="password"
-        aria-describedby="username2-help"
-        :class="['p-inputtext-sm', 'input', v$.password.$error && 'p-invalid']"
-        v-model.lazy="formData.password"
-        @change="v$.password.$reset"
-      />
-      <small id="password-help" class="p-error" v-if="v$.password.$error">
-        Password is required
-      </small>
-    </div>
-    <InlineMessage severity="error" v-if="error" class="message">
-      {{ error }}
-    </InlineMessage>
-    <Button
-      type="submit"
-      label="Log in"
-      class="p-button-sm p-button-outlined p-button-text button"
+    <Input
+      name="email"
+      label="Email"
+      :error="v$.email.$error"
+      v-model:value="formData.email"
+      placeholder="Enter email"
+      type="email"
+      errorMessage="Email is required"
     />
+    <Input
+      name="password"
+      label="Password"
+      :error="v$.password.$error"
+      v-model:value="formData.password"
+      placeholder="Enter password"
+      type="password"
+      errorMessage="Password is required"
+    />
+    <article class="message is-danger" v-if="error">
+      <div class="message-body">
+        {{ error }}
+      </div>
+    </article>
+    <button
+      class="button is-primary"
+      type="submit"
+      :class="[isLoading && 'is-loading']"
+    >
+      Log In
+    </button>
   </form>
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive, onUnmounted } from 'vue';
-import Button from 'primevue/button';
-import InputText from 'primevue/inputtext';
-import Password from 'primevue/password';
+
 import useVuelidate from '@vuelidate/core';
 import { required, email, helpers } from '@vuelidate/validators';
 import { useAuthStore } from '../../store/auth';
 import { storeToRefs } from 'pinia';
 import InlineMessage from 'primevue/inlinemessage';
+import Input from './components/Input.vue';
 
 export default defineComponent({
-  components: { InputText, Button, InlineMessage, Password },
+  components: { InlineMessage, Input },
   setup(_, context) {
     const auth = useAuthStore();
-    const { error } = storeToRefs(auth);
+    const { error, isLoading } = storeToRefs(auth);
 
     const formData = reactive({
       email: '',
@@ -89,7 +80,7 @@ export default defineComponent({
       }
     };
     onUnmounted(() => auth.clearError());
-    return { formData, submitForm, v$, error };
+    return { formData, submitForm, v$, error, isLoading };
   },
 });
 </script>
@@ -110,12 +101,5 @@ export default defineComponent({
 }
 input {
   width: 100%;
-}
-.field {
-  width: 100%;
-  min-width: 280px;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 10px;
 }
 </style>

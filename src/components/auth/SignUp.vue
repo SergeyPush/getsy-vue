@@ -1,100 +1,70 @@
 <template>
   <form class="container" @submit.prevent="submitForm">
-    <div class="field">
-      <label for="firstName">First Name</label>
-      <InputText
-        id="firstName"
-        type="text"
-        aria-describedby="firstname-help"
-        class="p-inputtext-sm input"
-        autocomplete="off"
-        v-model.lazy="formData.firstName"
-      />
-      <small id="email-help" class="p-error" v-if="v$.firstName.$error">
-        First name is required
-      </small>
-    </div>
-    <div class="field">
-      <label for="lastName">Last name</label>
-      <InputText
-        id="lastName"
-        type="text"
-        aria-describedby="lastname-help"
-        class="p-inputtext-sm input"
-        autocomplete="off"
-        v-model.lazy="formData.lastName"
-      />
-      <small id="email-help" class="p-error" v-if="v$.lastName.$error">
-        Last name is required
-      </small>
-    </div>
-    <div class="field">
-      <label for="email">Email</label>
-      <InputText
-        id="email"
-        type="text"
-        aria-describedby="username2-help"
-        class="p-inputtext-sm input"
-        autocomplete="off"
-        v-model.lazy="formData.email"
-      />
-      <small id="email-help" class="p-error" v-if="v$.email.$error">
-        Email is required
-      </small>
-    </div>
-    <div class="field">
-      <label for="password">Password</label>
-      <InputText
-        id="password"
-        type="password"
-        aria-describedby="username2-help"
-        class="p-inputtext-sm"
-        v-model.lazy="formData.password"
-      />
-      <small id="password-help" class="p-error" v-if="v$.password.$error">
-        Password is required
-      </small>
-    </div>
-    <div class="field">
-      <label for="confirmPassword">Password</label>
-      <InputText
-        id="confirmPassword"
-        type="password"
-        aria-describedby="username2-help"
-        class="p-inputtext-sm"
-        v-model.lazy="formData.confirmPassword"
-      />
-      <small
-        id="password-help"
-        class="p-error"
-        v-if="v$.confirmPassword.$error"
-      >
-        Confirmation is required
-      </small>
-    </div>
-    <InlineMessage severity="error" v-if="error" class="message">
-      {{ error }}
-    </InlineMessage>
-    <Button
-      type="submit"
-      label="Sign Up"
-      class="p-button-sm p-button-outlined p-button-text button"
+    <Input
+      name="firstName"
+      label="First name"
+      :error="v$.firstName.$error"
+      v-model:value="formData.firstName"
+      placeholder="Enter first name"
+      type="text"
+      errorMessage="First name is required"
     />
+    <Input
+      name="lastName"
+      label="Last name"
+      :error="v$.lastName.$error"
+      v-model:value="formData.lastName"
+      placeholder="Enter last name"
+      type="text"
+      errorMessage="Last name is required"
+    />
+    <Input
+      name="email"
+      label="Email"
+      :error="v$.email.$error"
+      v-model:value="formData.email"
+      placeholder="Enter email"
+      type="email"
+      errorMessage="Email is required"
+    />
+    <Input
+      name="password"
+      label="Password"
+      :error="v$.password.$error"
+      v-model:value="formData.password"
+      placeholder="Enter password"
+      type="password"
+      errorMessage="Password is required"
+    />
+    <Input
+      name="confirmPassword"
+      label="Confirm Password"
+      :error="v$.confirmPassword.$error"
+      v-model:value="formData.confirmPassword"
+      placeholder="Confirm password"
+      type="password"
+      errorMessage="Confirmation is required"
+    />
+    <article class="message is-danger" v-if="error">
+      <div class="message-body m-body">
+        {{ error }}
+      </div>
+    </article>
+    <button class="button is-primary" type="submit">Sign Up</button>
   </form>
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive, onUnmounted } from 'vue';
-import Button from 'primevue/button';
-import InputText from 'primevue/inputtext';
-import InlineMessage from 'primevue/inlinemessage';
+
 import useVuelidate from '@vuelidate/core';
 import { required, email, helpers } from '@vuelidate/validators';
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '../../store/auth';
+import Input from './components/Input.vue';
 
 export default defineComponent({
-  components: { InputText, Button, InlineMessage },
+  components: { Input },
   setup(_, context) {
     const auth = useAuthStore();
     const { error } = storeToRefs(auth);
@@ -163,12 +133,6 @@ export default defineComponent({
   margin-left: auto;
 }
 
-.field {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 10px;
-}
 .message {
   max-width: 280px;
   min-width: 100%;
