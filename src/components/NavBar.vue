@@ -27,48 +27,57 @@
             v-if="auth.isAuthenticated"
             >Create</router-link
           >
-          <Button
-            label="Log in"
-            class="p-button-sm p-button-outlined p-button-text"
+          <button
+            class="button is-primary is-inverted"
             @click="isDisplayed = !isDisplayed"
             v-if="!auth.isAuthenticated"
-          />
-          <Button
-            label="Logout"
-            class="p-button-sm p-button-outlined p-button-text"
-            @click="auth.signOut"
+          >
+            Login
+          </button>
+          <button
+            class="button is-primary is-inverted"
             v-if="auth.isAuthenticated"
-          />
+            @click="auth.signOut"
+          >
+            Logout
+          </button>
         </div>
       </div>
     </Container>
-    <Dialog v-model:visible="isDisplayed">
-      <template #header>
-        <h3>{{ hasAccount ? 'Log In' : 'Sign Up' }}</h3>
-      </template>
-
-      <Login v-if="hasAccount" @closeDialog="isDisplayed = false" />
-      <SignUp v-if="!hasAccount" @closeDialog="isDisplayed = false" />
-
-      <button class="button is-ghost" @click="hasAccount = !hasAccount">
-        {{ hasAccount ? "Don't have account? " : 'Already has an account?' }}
-      </button>
-    </Dialog>
+    <div class="modal" :class="[isDisplayed && 'is-active']">
+      <div class="modal-background"></div>
+      <div class="modal-content custom-modal">
+        <div class="box">
+          <h3 class="subtitle has-text-centered">
+            {{ hasAccount ? 'Log In' : 'Sign Up' }}
+          </h3>
+          <Login v-if="hasAccount" @closeDialog="isDisplayed = false" />
+          <SignUp v-if="!hasAccount" @closeDialog="isDisplayed = false" />
+          <button class="button is-ghost" @click="hasAccount = !hasAccount">
+            {{
+              hasAccount ? "Don't have account? " : 'Already has an account?'
+            }}
+          </button>
+        </div>
+      </div>
+      <button
+        class="modal-close is-large"
+        @click="isDisplayed = false"
+        aria-label="close"
+      ></button>
+    </div>
   </nav>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import Dialog from 'primevue/dialog';
-import Button from 'primevue/button';
+
 import Login from '../components/auth/Login.vue';
 import SignUp from '../components/auth/SignUp.vue';
 import { useAuthStore } from '../store/auth';
 import Container from './Container.vue';
 export default defineComponent({
   components: {
-    Button,
-    Dialog,
     Login,
     SignUp,
     Container,
@@ -77,7 +86,6 @@ export default defineComponent({
     const isDisplayed = ref(false);
     const hasAccount = ref(true);
     const auth = useAuthStore();
-
     return { isDisplayed, hasAccount, auth };
   },
 });
@@ -138,5 +146,8 @@ $navBarBackgroundColor: #fff;
   font-size: 24px;
   color: $logoColor;
   text-decoration: none;
+}
+.custom-modal {
+  max-width: 380px;
 }
 </style>
