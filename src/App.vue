@@ -25,4 +25,9 @@ body {
   background-color: #f5f8ff;
   font-size: 16px;
 }
+body,
+p,
+time {
+  color: #475569;
+}
 </style>

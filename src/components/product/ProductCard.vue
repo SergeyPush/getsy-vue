@@ -9,17 +9,17 @@
           />
         </figure>
       </div>
-      <div class="card-content c-content">
+      <div class="card-content">
         <div class="media">
           <div class="media-content">
-            <p class="title is-4">{{ product.title }}</p>
+            <p class="subtitle is-4">{{ product.title }}</p>
           </div>
         </div>
         <div class="content">
           <p class="text">
             {{ product.description }}
           </p>
-          <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+          <time datetime="2016-1-1" class="time">11:09 PM - 1 Jan 2016</time>
         </div>
       </div>
     </div>
@@ -46,6 +46,8 @@ export default defineComponent({
 <style scoped lang="scss">
 .card {
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 .text {
   background-color: transparent;
@@ -55,5 +57,15 @@ export default defineComponent({
   display: -webkit-box;
   -webkit-line-clamp: 2; /* number of lines to show */
   -webkit-box-orient: vertical;
+}
+.card-content {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.time {
+  margin-top: auto;
+  font-size: 12px;
 }
 </style>

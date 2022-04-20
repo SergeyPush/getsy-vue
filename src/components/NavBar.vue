@@ -95,11 +95,6 @@ export default defineComponent({
 @import '../styles/variables.scss';
 @import '../styles/mixins.scss';
 
-$logoColor: var(--orange-500);
-$borderColor: var(--teal-50);
-$activeColor: var(--teal-500);
-$usernameColor: var(--bluegray-500);
-$navBarBackgroundColor: #fff;
 .navbar {
   border-bottom: 1px solid $borderColor;
   background-color: $navBarBackgroundColor;
@@ -132,10 +127,14 @@ $navBarBackgroundColor: #fff;
 }
 .link {
   text-decoration: none;
-  font-weight: 600;
+  /* font-weight: 600; */
   color: $linkColor;
   margin: 0 20px;
   font-size: 15px;
+}
+.router-link-active {
+  color: $activeLinkColor;
+  text-decoration: underline;
 }
 .button {
   text-decoration: none;
