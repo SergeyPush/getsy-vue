@@ -5,10 +5,7 @@ import {
   getProduct,
   deleteProdcut,
 } from './product.api';
-import {
-  ProductInterface,
-  CreateProductInterface,
-} from '../types/product.interface';
+import { ProductInterface } from '../types/product.interface';
 import { updateProduct } from './product.api';
 
 const queryClient = new QueryClient();

@@ -4,15 +4,15 @@
       <div class="column">
         <article
           class="message is-danger"
-          v-if="error"
-          v-for="(err, idx) of error"
+          v-for="(err, idx) in errorTyped"
           :key="idx"
         >
           <div class="message-body">
             {{ err }}
           </div>
         </article>
-        <form @submit.prevent="onFormSubmit" class="form">
+
+        <form @submit.prevent="onFormSubmit" class="form mt-4">
           <div class="file has-name is-boxed mb-4 is-primary">
             <label class="file-label">
               <input
@@ -114,7 +114,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, unref } from 'vue';
+import { defineComponent, ref, reactive, unref, Ref } from 'vue';
 import Container from '../components/Container.vue';
 import Dropdown from '../components/Dropdown.vue';
 
@@ -149,6 +149,7 @@ export default defineComponent({
     const fd = new FormData();
 
     const { error, data, isSuccess, mutateAsync } = useCreateProduct();
+    const errorTyped: Ref<any> = error as any;
 
     const getFeatures = computed(() =>
       typeof formData.features === 'string'
@@ -187,6 +188,7 @@ export default defineComponent({
       fileList,
       types,
       getFeatures,
+      errorTyped,
     };
   },
 });
