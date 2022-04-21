@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar">
     <Container>
-      <div class="container">
+      <div class="wrapper">
         <router-link :to="{ name: 'home' }" class="logo">Getsy</router-link>
         <div class="menu">
           <router-link
@@ -16,7 +16,7 @@
           >
         </div>
         <div class="user">
-          <i class="pi pi-user icon" v-if="auth.firstName"></i>
+          <i class="fa fa-user-o user-icon" v-if="auth.firstName"></i>
           <p class="username">
             {{ auth.firstName }}
           </p>
@@ -99,9 +99,9 @@ export default defineComponent({
   border-bottom: 1px solid $borderColor;
   background-color: $navBarBackgroundColor;
   padding: 10px 0;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
-.container {
+.wrapper {
   width: 100%;
   display: flex;
   align-items: center;
@@ -117,13 +117,11 @@ export default defineComponent({
   display: flex;
   align-items: center;
 }
-.icon {
-  color: $usernameColor;
+.user-icon {
   margin-right: 10px;
 }
 .username {
   margin-right: 20px;
-  color: $usernameColor;
 }
 .link {
   text-decoration: none;

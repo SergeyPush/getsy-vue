@@ -4,7 +4,13 @@
       <div class="card-image">
         <figure class="image is-4by3">
           <img
+            v-if="product.images.length === 0"
             src="https://bulma.io/images/placeholders/1280x960.png"
+            alt="Placeholder image"
+          />
+          <Image
+            v-if="product.images.length > 0"
+            :src="product.images[0]"
             alt="Placeholder image"
           />
         </figure>
@@ -19,7 +25,7 @@
           <p class="text">
             {{ product.description }}
           </p>
-          <time datetime="2016-1-1" class="time">11:09 PM - 1 Jan 2016</time>
+          <time class="time">{{ time }}</time>
         </div>
       </div>
     </div>
@@ -29,15 +35,22 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import Card from 'primevue/card';
+import Image from './Image.vue';
+import { computed } from '@vue/reactivity';
+import { getDate } from '../../helpers/date.helpers';
 
 export default defineComponent({
   props: ['product'],
   components: {
     Card,
+    Image,
   },
   setup({ product }) {
+    const time = computed(() => getDate(product.createdAt));
+
     return {
       product,
+      time,
     };
   },
 });

@@ -18,7 +18,7 @@
     gap: 20px;
   }
   @include desktop {
-    grid-template-columns: repeat(4, minmax(200px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: 40px;
   }
 }
