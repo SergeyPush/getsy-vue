@@ -125,7 +125,6 @@ export default defineComponent({
 }
 .link {
   text-decoration: none;
-  /* font-weight: 600; */
   color: $linkColor;
   margin: 0 20px;
   font-size: 15px;

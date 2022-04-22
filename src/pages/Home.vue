@@ -1,5 +1,6 @@
 <template>
   <Container>
+    <Spinner :isLoading="isLoading" />
     <ProductList>
       <ProductCard
         v-for="product of data"
@@ -16,14 +17,15 @@ import Container from '../components/Container.vue';
 import { useGetAllProducts } from '../api/product.queries';
 import ProductCard from '../components/product/ProductCard.vue';
 import ProductList from '../components/product/ProductList.vue';
+import Spinner from '../components/Spinner.vue';
 
 export default defineComponent({
+  components: { Container, ProductCard, ProductList, Spinner },
   setup() {
-    const { data, error } = useGetAllProducts();
+    const { data, error, isLoading } = useGetAllProducts();
 
-    return { data, error };
+    return { data, error, isLoading };
   },
-  components: { Container, ProductCard, ProductList },
 });
 </script>
 

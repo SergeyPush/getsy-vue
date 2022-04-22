@@ -1,5 +1,6 @@
 <template>
   <Container>
+    <Spinner :isLoading="isLoading" />
     <Confirm
       :displayModal="confirmDialog"
       @delete="deleteProduct"
@@ -11,7 +12,6 @@
       @close="editDialog = false"
       v-if="product"
     />
-
     <div class="controls mb-3">
       <button class="button is-success" @click="editDialog = true">
         <span class="icon">
@@ -64,6 +64,7 @@ import ImageList from '../components/product/ImageList.vue';
 import ImageModal from '../components/product/ImageModal.vue';
 import { getDate } from './../helpers/date.helpers';
 import { computed } from '@vue/reactivity';
+import Spinner from '../components/Spinner.vue';
 
 export default defineComponent({
   components: {
@@ -73,6 +74,7 @@ export default defineComponent({
     EditProduct,
     ImageList,
     ImageModal,
+    Spinner,
   },
   setup() {
     const { params } = useRoute();

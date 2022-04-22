@@ -1,6 +1,6 @@
 <template>
   <div class="modal" :class="[image && 'is-active']" v-if="image">
-    <div class="modal-background"></div>
+    <div class="modal-background" @click="closeModal"></div>
     <div class="modal-content">
       <p class="image is-4by3">
         <img :src="getImage(image)" :alt="alt" />
