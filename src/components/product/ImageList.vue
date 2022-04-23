@@ -38,8 +38,6 @@ export default defineComponent({
 .container {
   width: 100%;
 }
-.big-image {
-}
 .image-list {
   padding: 15px 0;
   gap: 15px;

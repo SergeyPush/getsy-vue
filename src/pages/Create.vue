@@ -1,5 +1,6 @@
 <template>
   <Container>
+    <Spinner :isLoading="isLoading" />
     <div class="columns">
       <div class="column">
         <article
@@ -122,11 +123,13 @@ import { useCreateProduct } from '../api/product.queries';
 import { useRouter } from 'vue-router';
 import { CreateProductInterface } from '../types/product.interface';
 import { computed } from '@vue/reactivity';
+import Spinner from '../components/Spinner.vue';
 
 export default defineComponent({
   components: {
     Container,
     Dropdown,
+    Spinner,
   },
 
   setup() {
@@ -148,7 +151,8 @@ export default defineComponent({
 
     const fd = new FormData();
 
-    const { error, data, isSuccess, mutateAsync } = useCreateProduct();
+    const { error, data, isSuccess, mutateAsync, isLoading } =
+      useCreateProduct();
     const errorTyped: Ref<any> = error as any;
 
     const getFeatures = computed(() =>
@@ -189,6 +193,7 @@ export default defineComponent({
       types,
       getFeatures,
       errorTyped,
+      isLoading,
     };
   },
 });

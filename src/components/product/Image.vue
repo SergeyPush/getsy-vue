@@ -1,5 +1,11 @@
 <template>
-  <img :src="getImage(src)" :alt="alt" class="image img" v-if="src" />
+  <img
+    :src="getImage(src)"
+    :alt="alt"
+    class="image img"
+    v-if="src"
+    onerror="this.src='/no-image.png'"
+  />
 </template>
 
 <script lang="ts">

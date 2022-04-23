@@ -80,7 +80,7 @@ export default defineComponent({
     const { params } = useRoute();
     const router = useRouter();
     const id = Number(params?.id);
-    const { isSuccess, mutate } = useDeleteProduct();
+    const { isSuccess, mutateAsync } = useDeleteProduct();
     const { data: product, isLoading } = useGetProduct(id);
     const displayDialog = ref(false);
     const confirmDialog = ref(false);
@@ -89,7 +89,7 @@ export default defineComponent({
     const time = computed(() => getDate(product?.value?.createdAt));
 
     const deleteProduct = async () => {
-      mutate(id);
+      await mutateAsync(id);
       if (isSuccess) {
         router.push('/');
         confirmDialog.value = false;
