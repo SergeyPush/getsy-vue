@@ -1,6 +1,7 @@
 <template>
   <Container>
     <Spinner :isLoading="isLoading" />
+    <EmptyProduct :text="error" v-if="error" />
     <Confirm
       :displayModal="confirmDialog"
       @delete="deleteProduct"
@@ -12,7 +13,7 @@
       @close="editDialog = false"
       v-if="product"
     />
-    <div class="controls mb-3">
+    <div class="controls mb-3" v-if="!error">
       <button class="button is-success" @click="editDialog = true">
         <span class="icon">
           <i class="fa fa-pencil"></i>
@@ -57,7 +58,7 @@
 <script lang="ts">
 import Container from '../components/Container.vue';
 import Confirm from '../components/product/Confirm.vue';
-import { defineComponent, ref, watch, watchEffect } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useGetProduct, useDeleteProduct } from '../api/product.queries';
 import EditProduct from '../components/product/EditProduct.vue';
@@ -66,6 +67,7 @@ import ImageModal from '../components/product/ImageModal.vue';
 import { getDate } from './../helpers/date.helpers';
 import { computed } from '@vue/reactivity';
 import Spinner from '../components/Spinner.vue';
+import EmptyProduct from '../components/product/EmptyProduct.vue';
 
 export default defineComponent({
   components: {
@@ -75,13 +77,14 @@ export default defineComponent({
     ImageList,
     ImageModal,
     Spinner,
+    EmptyProduct,
   },
   setup() {
     const { params } = useRoute();
     const router = useRouter();
     const id = Number(params?.id);
     const { isSuccess, mutateAsync } = useDeleteProduct();
-    const { data: product, isLoading } = useGetProduct(id);
+    const { data: product, isLoading, error } = useGetProduct(id);
     const displayDialog = ref(false);
     const confirmDialog = ref(false);
     const editDialog = ref(false);
@@ -105,6 +108,7 @@ export default defineComponent({
       isLoading,
       getDate,
       time,
+      error,
     };
   },
 });

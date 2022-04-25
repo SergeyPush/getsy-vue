@@ -41,6 +41,11 @@ const router = createRouter({
         isPrivate: true,
       },
     },
+    {
+      path: RouterPaths.NOT_FOUND,
+      name: 'not-found',
+      component: () => import('../pages/NotFound.vue'),
+    },
   ],
 });
 
