@@ -1,9 +1,7 @@
 import api from './api';
 import { AxiosError } from 'axios';
-import {
-  ProductInterface,
-  CreateProductInterface,
-} from '../types/product.interface';
+import { ProductInterface } from '../types/product.interface';
+import { useAuthStore } from '../store/auth';
 
 class AxiosErrorMessage extends Error {
   constructor(message: AxiosError) {
@@ -13,9 +11,15 @@ class AxiosErrorMessage extends Error {
 }
 
 export const createProduct = async (formData: FormData) => {
+  const auth = useAuthStore();
   try {
     const res = await api.post('/products', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        ...(auth.accessToken && {
+          Authorization: `Bearer ${auth.accessToken}`,
+        }),
+      },
     });
     return res.data;
   } catch (error) {
@@ -29,6 +33,15 @@ export const getAllProducts = async (type?: string) => {
     return res.data;
   } catch (error) {
     throw new AxiosErrorMessage(error as AxiosError).message;
+  }
+};
+
+export const getAllProductsByAuthor = async (id: number) => {
+  try {
+    const res = await api.get(`/products/user/${id}`);
+    return res.data;
+  } catch (error) {
+    throw new Error('Product not found').message;
   }
 };
 

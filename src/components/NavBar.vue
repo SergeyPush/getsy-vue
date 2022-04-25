@@ -22,6 +22,13 @@
           </p>
 
           <router-link
+            :to="{ name: 'my-products' }"
+            class="link"
+            v-if="auth.isAuthenticated"
+          >
+            My products</router-link
+          >
+          <router-link
             :to="{ name: 'create' }"
             class="link"
             v-if="auth.isAuthenticated"

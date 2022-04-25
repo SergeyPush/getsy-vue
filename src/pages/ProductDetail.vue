@@ -32,7 +32,9 @@
         <ImageList :images="product.images" />
       </div>
       <div class="column" v-if="product">
-        <p>author</p>
+        <p v-if="product.author">
+          {{ product.author.firstName }} {{ product.author.lastName }}
+        </p>
         <h2 class="title item">{{ product.title }}</h2>
         <p class="description item" v-html="product.description" />
         <p class="price item">Price: {{ product.price }}$</p>
@@ -54,7 +56,6 @@
 
 <script lang="ts">
 import Container from '../components/Container.vue';
-import Edit from '../components/product/EditProduct1.vue';
 import Confirm from '../components/product/Confirm.vue';
 import { defineComponent, ref, watch, watchEffect } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -69,7 +70,6 @@ import Spinner from '../components/Spinner.vue';
 export default defineComponent({
   components: {
     Container,
-    Edit,
     Confirm,
     EditProduct,
     ImageList,

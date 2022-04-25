@@ -1,6 +1,5 @@
-import { createRouter, createWebHistory, RouterOptions } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import { RouterPaths } from './routes.paths';
-import { logIn } from '../api/user.api';
 import { useAuthStore } from '../store/auth';
 
 const router = createRouter({
@@ -25,6 +24,14 @@ const router = createRouter({
       path: RouterPaths.PRODUCT,
       name: 'product',
       component: () => import('../pages/ProductDetail.vue'),
+    },
+    {
+      path: RouterPaths.MY_PRODUCTS,
+      name: 'my-products',
+      component: () => import('../pages/MyProducts.vue'),
+      meta: {
+        isPrivate: true,
+      },
     },
     {
       path: RouterPaths.CREATE,
