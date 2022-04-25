@@ -17,9 +17,7 @@
       </div>
       <div class="card-content">
         <div class="media">
-          <div class="media-content">
-            <p class="subtitle is-4">{{ product.title }}</p>
-          </div>
+          <p class="subtitle is-4">{{ product.title }}</p>
         </div>
         <div class="content">
           <p class="text">
