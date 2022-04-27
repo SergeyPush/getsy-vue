@@ -3,6 +3,7 @@
     <MobileMenu
       :isOpen="mobileMenuIsOpen"
       @close="mobileMenuIsOpen = !mobileMenuIsOpen"
+      @openDialog="isDisplayed = !isDisplayed"
     />
     <Container>
       <div class="wrapper">
