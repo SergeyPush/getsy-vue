@@ -13,7 +13,7 @@
       @close="editDialog = false"
       v-if="product"
     />
-    <div class="controls mb-3" v-if="!error">
+    <div class="controls mb-3 mt-3" v-if="!error">
       <button class="button is-success" @click="editDialog = true">
         <span class="icon">
           <i class="fa fa-pencil"></i>

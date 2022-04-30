@@ -10,10 +10,18 @@
         <router-link :to="{ name: 'home' }" class="logo">Getsy</router-link>
 
         <div class="user">
-          <i class="fa fa-user-o user-icon" v-if="auth.firstName"></i>
-          <p class="username">
-            {{ auth.firstName }}
-          </p>
+          <div>
+            <i class="fa fa-user-o user-icon" v-if="auth.firstName"></i>
+            <span class="username">
+              {{ auth.firstName }}
+            </span>
+          </div>
+
+          <i
+            v-if="hasFavorites"
+            class="fa favorite fa-heart-o favorite"
+            @click="$router.push('/favorites')"
+          ></i>
 
           <router-link
             :to="{ name: 'my-products' }"
@@ -86,8 +94,10 @@ import { defineComponent, ref } from 'vue';
 import Login from '../components/auth/Login.vue';
 import SignUp from '../components/auth/SignUp.vue';
 import { useAuthStore } from '../store/auth';
+import { useFavoritesStore } from '../store/favorites';
 import Container from './Container.vue';
 import MobileMenu from './MobileMenu.vue';
+import { storeToRefs } from 'pinia';
 export default defineComponent({
   components: {
     Login,
@@ -100,8 +110,10 @@ export default defineComponent({
     const hasAccount = ref(true);
     const mobileMenuIsOpen = ref(false);
     const auth = useAuthStore();
+    const favorites = useFavoritesStore();
+    const { hasFavorites } = storeToRefs(favorites);
 
-    return { isDisplayed, hasAccount, auth, mobileMenuIsOpen };
+    return { isDisplayed, hasAccount, auth, mobileMenuIsOpen, hasFavorites };
   },
 });
 </script>
@@ -140,6 +152,9 @@ export default defineComponent({
 .user-icon {
   margin-right: 10px;
 }
+.icon {
+  color: inherit;
+}
 .username {
   margin-right: 20px;
 }
@@ -171,5 +186,9 @@ export default defineComponent({
   @include desktop {
     display: none;
   }
+}
+.favorite {
+  cursor: pointer;
+  margin: 0 10px;
 }
 </style>

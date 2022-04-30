@@ -54,7 +54,7 @@ export default defineComponent({
   margin-bottom: 120px;
   min-height: 130px;
   position: relative;
-  transition: all 0.5s linear;
+  transition: all 0.2s linear;
   &.green {
     background-color: $headerColorOne;
   }

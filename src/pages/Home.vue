@@ -5,6 +5,7 @@
     <Spinner :isLoading="isLoading" />
     <ProductList>
       <ProductCard
+        :showFavorites="true"
         v-for="product of data"
         :key="product.id"
         :product="product"

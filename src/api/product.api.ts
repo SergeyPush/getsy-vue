@@ -35,6 +35,16 @@ export const getAllProducts = async (type?: string) => {
     throw new AxiosErrorMessage(error as AxiosError).message;
   }
 };
+export const getProductsByIds = async (ids: number[]) => {
+  try {
+    const res = await api.get('/products', {
+      params: { ids: ids.join(',') },
+    });
+    return res.data;
+  } catch (error) {
+    throw new AxiosErrorMessage(error as AxiosError).message;
+  }
+};
 
 export const getAllProductsByAuthor = async (id: number) => {
   try {

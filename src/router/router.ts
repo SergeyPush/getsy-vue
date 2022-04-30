@@ -36,6 +36,14 @@ const router = createRouter({
       name: 'not-found',
       component: () => import('../pages/NotFound.vue'),
     },
+    {
+      path: RouterPaths.FAVORITES,
+      name: 'favorites',
+      component: () => import('../pages/Favorites.vue'),
+      meta: {
+        isPrivate: true,
+      },
+    },
   ],
 });
 

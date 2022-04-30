@@ -1,5 +1,5 @@
 <template>
-  <Container>
+  <Container class="mt-3">
     <Spinner :isLoading="isLoading" />
     <ProductList>
       <ProductCard

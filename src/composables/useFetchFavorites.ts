@@ -1,15 +1,15 @@
 import { ref } from 'vue';
-import { getAllProducts } from '../api/product.api';
+import { getProductsByIds } from '../api/product.api';
 
-export const useFetch = () => {
+export const useFetchFavorites = () => {
   const data = ref();
   const error = ref();
   const isLoading = ref(false);
 
-  const fetchData = async (type?: 'product' | 'service') => {
+  const fetchData = async (ids: number[]) => {
     try {
       isLoading.value = true;
-      const res = await getAllProducts(type);
+      const res = await getProductsByIds(ids);
       data.value = res;
     } catch (err) {
       error.value = err;

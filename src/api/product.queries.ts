@@ -4,6 +4,7 @@ import {
   getAllProducts,
   getProduct,
   deleteProdcut,
+  getProductsByIds,
 } from './product.api';
 import { ProductInterface } from '../types/product.interface';
 import { updateProduct, getAllProductsByAuthor } from './product.api';

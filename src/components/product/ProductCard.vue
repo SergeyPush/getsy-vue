@@ -2,6 +2,19 @@
   <router-link :to="{ name: 'product', params: { id: product.id } }">
     <div class="card">
       <div class="card-image">
+        <div
+          v-if="showFavorites"
+          class="favorite-pad"
+          :class="[isFavorite(product.id) && 'displayed']"
+          @click.prevent="add"
+        >
+          <i
+            class="fa favorite"
+            :class="[
+              isFavorite(product.id) ? 'fa-heart selected' : 'fa-heart-o',
+            ]"
+          ></i>
+        </div>
         <figure class="image is-4by3">
           <img
             v-if="product.images.length === 0"
@@ -36,19 +49,28 @@ import Card from 'primevue/card';
 import Image from './Image.vue';
 import { computed } from '@vue/reactivity';
 import { getDate } from '../../helpers/date.helpers';
+import { useFavoritesStore } from '../../store/favorites';
+import { storeToRefs } from 'pinia';
 
 export default defineComponent({
-  props: ['product'],
+  props: ['product', 'showFavorites'],
   components: {
     Card,
     Image,
   },
   setup({ product }) {
     const time = computed(() => getDate(product.createdAt));
+    const favorites = useFavoritesStore();
+    const { isFavorite } = storeToRefs(favorites);
 
+    const add = () => {
+      favorites.addToFavorites(product.id);
+    };
     return {
       product,
       time,
+      add,
+      isFavorite,
     };
   },
 });
@@ -59,6 +81,11 @@ export default defineComponent({
   height: 100%;
   display: flex;
   flex-direction: column;
+  &:hover {
+    box-shadow: 0.2em 0.6em 1.2em -0.125em rgba(10, 10, 10, 0.1),
+      0 0 0 1px rgba(10, 10, 10, 0.02);
+    box-shadow: 0px 0px 15px 9px rgba(34, 60, 80, 0.2);
+  }
 }
 .text {
   background-color: transparent;
@@ -78,5 +105,36 @@ export default defineComponent({
 .time {
   margin-top: auto;
   font-size: 12px;
+}
+.favorite-pad {
+  display: flex;
+  opacity: 0;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  position: absolute;
+  background-color: #fff;
+  padding: 6px;
+  top: 15px;
+  right: 15px;
+  border-radius: 50%;
+  border: 1px solid gainsboro;
+  transition: all 0.2s linear;
+  &:hover {
+    box-shadow: 0px 0px 8px 2px rgba(34, 60, 80, 0.3);
+  }
+}
+.card:hover .favorite-pad {
+  opacity: 1;
+}
+.favorite {
+  font-size: 20px;
+  color: black;
+}
+.selected {
+  color: tomato;
+}
+.displayed {
+  opacity: 1;
 }
 </style>
