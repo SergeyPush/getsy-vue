@@ -29,7 +29,8 @@ export default defineComponent({
     const { data, isLoading, fetchData } = useFetch();
 
     onMounted(() => fetchData());
-    const changeType = (type?: 'product' | 'service') => {
+    const changeType = (type: 'product' | 'service') => {
+      selectedType.value = type;
       fetchData(type);
     };
 

@@ -1,7 +1,7 @@
 <template>
   <div
     class="wrapper pt-4"
-    :class="[selected !== 'services' ? 'green' : 'pink']"
+    :class="[selected !== 'service' ? 'green' : 'pink']"
   >
     <Container>
       <p class="has-text-centered subtitle is-4">
@@ -12,7 +12,7 @@
           <img src="/products.jpeg" alt="product" class="image" />
           <p
             class="subtitle is-5 has-text-centered mt-3"
-            :class="[selected === 'products' && 'underline']"
+            :class="[selected === 'product' && 'underline']"
           >
             Products
           </p>
@@ -21,7 +21,7 @@
           <img src="/services.jpeg" alt="service" class="image" />
           <p
             class="subtitle is-5 has-text-centered mt-3"
-            :class="[selected === 'services' && 'underline']"
+            :class="[selected === 'service' && 'underline']"
           >
             Services
           </p>
@@ -98,6 +98,6 @@ export default defineComponent({
 }
 
 .underline {
-  text-decoration: underline;
+  font-weight: 500;
 }
 </style>
