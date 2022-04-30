@@ -115,7 +115,6 @@ export default defineComponent({
   border-bottom: 1px solid $borderColor;
   background-color: $navBarBackgroundColor;
   padding: 10px 0;
-  margin-bottom: 20px;
 }
 .wrapper {
   width: 100%;
