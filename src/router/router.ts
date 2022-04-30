@@ -1,6 +1,5 @@
-import { createRouter, createWebHistory, RouterOptions } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import { RouterPaths } from './routes.paths';
-import { logIn } from '../api/user.api';
 import { useAuthStore } from '../store/auth';
 
 const router = createRouter({
@@ -12,24 +11,35 @@ const router = createRouter({
       component: () => import('../pages/Home.vue'),
     },
     {
-      path: RouterPaths.PRODUCTS,
-      name: 'products',
-      component: () => import('../pages/Products.vue'),
-    },
-    {
-      path: RouterPaths.SERVICES,
-      name: 'services',
-      component: () => import('../pages/Services.vue'),
-    },
-    {
       path: RouterPaths.PRODUCT,
       name: 'product',
       component: () => import('../pages/ProductDetail.vue'),
     },
     {
+      path: RouterPaths.MY_PRODUCTS,
+      name: 'my-products',
+      component: () => import('../pages/MyProducts.vue'),
+      meta: {
+        isPrivate: true,
+      },
+    },
+    {
       path: RouterPaths.CREATE,
       name: 'create',
       component: () => import('../pages/Create.vue'),
+      meta: {
+        isPrivate: true,
+      },
+    },
+    {
+      path: RouterPaths.NOT_FOUND,
+      name: 'not-found',
+      component: () => import('../pages/NotFound.vue'),
+    },
+    {
+      path: RouterPaths.FAVORITES,
+      name: 'favorites',
+      component: () => import('../pages/Favorites.vue'),
       meta: {
         isPrivate: true,
       },

@@ -5,6 +5,7 @@ import { AuthType } from '../types/auth.interface';
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
+    id: '',
     firstName: '',
     lastName: '',
     email: '',
@@ -23,6 +24,7 @@ export const useAuthStore = defineStore('auth', {
         this.lastName = data.lastName;
         this.email = data.email;
         this.accessToken = data.accessToken;
+        this.id = data.id;
       } catch (error) {
         const err = error as AxiosError;
         this.error = err.response?.data?.message;
@@ -38,6 +40,7 @@ export const useAuthStore = defineStore('auth', {
         this.lastName = data.lastName;
         this.email = data.email;
         this.accessToken = data.accessToken;
+        this.id = data.id;
       } catch (error) {
         const err = error as AxiosError;
         this.error = err.response?.data?.message;
@@ -61,6 +64,6 @@ export const useAuthStore = defineStore('auth', {
   },
   persist: {
     key: 'user',
-    paths: ['firstName', 'lastName', 'email', 'accessToken'],
+    paths: ['firstName', 'lastName', 'email', 'accessToken', 'id'],
   },
 });

@@ -1,7 +1,6 @@
 <template>
-  <Container>
+  <Container class="mt-3">
     <Spinner :isLoading="isLoading" />
-    <EmptyProduct text="There is no services to display" v-if="!data.length" />
     <ProductList>
       <ProductCard
         v-if="data"
@@ -15,22 +14,25 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { useGetAllProducts } from '../api/product.queries';
 import Container from '../components/Container.vue';
 import ProductList from '../components/product/ProductList.vue';
 import ProductCard from '../components/product/ProductCard.vue';
 import Spinner from '../components/Spinner.vue';
-import EmptyProduct from '../components/product/EmptyProduct.vue';
+import { useGetAllProductsByUser } from '../api/product.queries';
+import { useAuthStore } from '../store/auth';
+import { storeToRefs } from 'pinia';
+
 export default defineComponent({
   components: {
     Container,
-    ProductCard,
     ProductList,
+    ProductCard,
     Spinner,
-    EmptyProduct,
   },
   setup() {
-    const { data, isLoading } = useGetAllProducts('service');
+    const auth = useAuthStore();
+    const { id } = storeToRefs(auth);
+    const { data, isLoading } = useGetAllProductsByUser(Number(id.value));
     return { data, isLoading };
   },
 });

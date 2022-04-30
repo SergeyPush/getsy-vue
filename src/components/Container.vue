@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="wrapper">
     <slot />
   </div>
 </template>
@@ -16,7 +16,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 @import '../styles/mixins.scss';
-.container {
+.wrapper {
   padding-left: 20px;
   padding-right: 20px;
 

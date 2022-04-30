@@ -1,7 +1,11 @@
 <template>
+  <ProductSelector v-model:selected="selectedType" @changeType="changeType" />
+
   <Container>
+    <Spinner :isLoading="isLoading" />
     <ProductList>
       <ProductCard
+        :showFavorites="true"
         v-for="product of data"
         :key="product.id"
         :product="product"
@@ -11,19 +15,28 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref, onMounted } from 'vue';
 import Container from '../components/Container.vue';
-import { useGetAllProducts } from '../api/product.queries';
 import ProductCard from '../components/product/ProductCard.vue';
 import ProductList from '../components/product/ProductList.vue';
+import Spinner from '../components/Spinner.vue';
+import ProductSelector from '../components/product/ProductSelector.vue';
+import { useFetch } from '../composables/useFetch';
 
 export default defineComponent({
+  components: { Container, ProductCard, ProductList, Spinner, ProductSelector },
   setup() {
-    const { data, error } = useGetAllProducts();
+    const selectedType = ref('');
+    const { data, isLoading, fetchData } = useFetch();
 
-    return { data, error };
+    onMounted(() => fetchData());
+    const changeType = (type: 'product' | 'service') => {
+      selectedType.value = type;
+      fetchData(type);
+    };
+
+    return { data, selectedType, isLoading, changeType };
   },
-  components: { Container, ProductCard, ProductList },
 });
 </script>
 

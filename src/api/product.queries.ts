@@ -4,9 +4,10 @@ import {
   getAllProducts,
   getProduct,
   deleteProdcut,
+  getProductsByIds,
 } from './product.api';
 import { ProductInterface } from '../types/product.interface';
-import { updateProduct } from './product.api';
+import { updateProduct, getAllProductsByAuthor } from './product.api';
 
 const queryClient = new QueryClient();
 
@@ -21,6 +22,15 @@ export function useCreateProduct() {
 
 export const useGetAllProducts = (type?: string) => {
   return useQuery('products', () => getAllProducts(type), {
+    retry: 2,
+    refetchOnMount: true,
+    retryDelay: 2000,
+    cacheTime: 2000,
+  });
+};
+
+export const useGetAllProductsByUser = (id: number) => {
+  return useQuery('productsByUser', () => getAllProductsByAuthor(id), {
     retry: 2,
     refetchOnMount: true,
     retryDelay: 2000,

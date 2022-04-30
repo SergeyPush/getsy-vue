@@ -1,5 +1,6 @@
 <template>
   <Container>
+    <Spinner :isLoading="isLoading" />
     <ProductList>
       <ProductCard
         v-if="data"
@@ -17,17 +18,19 @@ import { useGetAllProducts } from '../api/product.queries';
 import Container from '../components/Container.vue';
 import ProductList from '../components/product/ProductList.vue';
 import ProductCard from '../components/product/ProductCard.vue';
+import Spinner from '../components/Spinner.vue';
 
 export default defineComponent({
   components: {
     Container,
     ProductList,
     ProductCard,
+    Spinner,
   },
   setup() {
-    const { data } = useGetAllProducts('product');
+    const { data, isLoading } = useGetAllProducts('product');
 
-    return { data };
+    return { data, isLoading };
   },
 });
 </script>

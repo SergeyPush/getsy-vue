@@ -73,20 +73,18 @@
 import { defineComponent, reactive, toRefs } from 'vue';
 import { useUpdateProduct } from '../../api/product.queries';
 import { useQueryClient } from 'vue-query';
+import Spinner from '../Spinner.vue';
 
 export default defineComponent({
   props: ['data', 'visible'],
-
   setup(props, context) {
     const { data } = toRefs(props);
     const formData = reactive({ ...data.value });
-
     const closeDialog = () => {
       context.emit('close');
     };
-    const { mutateAsync, isSuccess } = useUpdateProduct();
+    const { mutateAsync, isSuccess, isLoading } = useUpdateProduct();
     const client = useQueryClient();
-
     const updateProduct = async () => {
       await mutateAsync(formData, {
         onSuccess: () => {
@@ -101,8 +99,10 @@ export default defineComponent({
       formData,
       closeDialog,
       updateProduct,
+      isLoading,
     };
   },
+  components: { Spinner },
 });
 </script>
 

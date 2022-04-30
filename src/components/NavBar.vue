@@ -1,26 +1,35 @@
 <template>
   <nav class="navbar">
+    <MobileMenu
+      :isOpen="mobileMenuIsOpen"
+      @close="mobileMenuIsOpen = !mobileMenuIsOpen"
+      @openDialog="isDisplayed = !isDisplayed"
+    />
     <Container>
-      <div class="container">
+      <div class="wrapper">
         <router-link :to="{ name: 'home' }" class="logo">Getsy</router-link>
-        <div class="menu">
-          <router-link
-            :to="{ name: 'products', query: { type: 'product' } }"
-            class="link"
-            >Products</router-link
-          >
-          <router-link
-            :to="{ name: 'services', query: { type: 'service' } }"
-            class="link"
-            >Services</router-link
-          >
-        </div>
-        <div class="user">
-          <i class="pi pi-user icon" v-if="auth.firstName"></i>
-          <p class="username">
-            {{ auth.firstName }}
-          </p>
 
+        <div class="user">
+          <div>
+            <i class="fa fa-user-o user-icon" v-if="auth.firstName"></i>
+            <span class="username">
+              {{ auth.firstName }}
+            </span>
+          </div>
+
+          <i
+            v-if="hasFavorites"
+            class="fa favorite fa-heart-o favorite"
+            @click="$router.push('/favorites')"
+          ></i>
+
+          <router-link
+            :to="{ name: 'my-products' }"
+            class="link"
+            v-if="auth.isAuthenticated"
+          >
+            My products</router-link
+          >
           <router-link
             :to="{ name: 'create' }"
             class="link"
@@ -42,6 +51,16 @@
             Logout
           </button>
         </div>
+        <button
+          class="hamburger hamburger--elastic mobile-button"
+          :class="[mobileMenuIsOpen && 'is-active']"
+          type="button"
+          @click="mobileMenuIsOpen = !mobileMenuIsOpen"
+        >
+          <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+          </span>
+        </button>
       </div>
     </Container>
     <div class="modal" :class="[isDisplayed && 'is-active']">
@@ -75,18 +94,26 @@ import { defineComponent, ref } from 'vue';
 import Login from '../components/auth/Login.vue';
 import SignUp from '../components/auth/SignUp.vue';
 import { useAuthStore } from '../store/auth';
+import { useFavoritesStore } from '../store/favorites';
 import Container from './Container.vue';
+import MobileMenu from './MobileMenu.vue';
+import { storeToRefs } from 'pinia';
 export default defineComponent({
   components: {
     Login,
     SignUp,
     Container,
+    MobileMenu,
   },
   setup() {
     const isDisplayed = ref(false);
     const hasAccount = ref(true);
+    const mobileMenuIsOpen = ref(false);
     const auth = useAuthStore();
-    return { isDisplayed, hasAccount, auth };
+    const favorites = useFavoritesStore();
+    const { hasFavorites } = storeToRefs(favorites);
+
+    return { isDisplayed, hasAccount, auth, mobileMenuIsOpen, hasFavorites };
   },
 });
 </script>
@@ -94,14 +121,14 @@ export default defineComponent({
 <style scoped lang="scss">
 @import '../styles/variables.scss';
 @import '../styles/mixins.scss';
+@import '../styles/hamburger.scss';
 
 .navbar {
   border-bottom: 1px solid $borderColor;
   background-color: $navBarBackgroundColor;
   padding: 10px 0;
-  margin-bottom: 10px;
 }
-.container {
+.wrapper {
   width: 100%;
   display: flex;
   align-items: center;
@@ -114,20 +141,25 @@ export default defineComponent({
   }
 }
 .user {
+  /* margin-left: auto; */
   display: flex;
   align-items: center;
+  display: none;
+  @include desktop {
+    display: inherit;
+  }
+}
+.user-icon {
+  margin-right: 10px;
 }
 .icon {
-  color: $usernameColor;
-  margin-right: 10px;
+  color: inherit;
 }
 .username {
   margin-right: 20px;
-  color: $usernameColor;
 }
 .link {
   text-decoration: none;
-  /* font-weight: 600; */
   color: $linkColor;
   margin: 0 20px;
   font-size: 15px;
@@ -148,5 +180,15 @@ export default defineComponent({
 }
 .custom-modal {
   max-width: 380px;
+}
+.mobile-button {
+  z-index: 30;
+  @include desktop {
+    display: none;
+  }
+}
+.favorite {
+  cursor: pointer;
+  margin: 0 10px;
 }
 </style>
