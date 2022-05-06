@@ -40,9 +40,6 @@ const router = createRouter({
       path: RouterPaths.FAVORITES,
       name: 'favorites',
       component: () => import('../pages/Favorites.vue'),
-      meta: {
-        isPrivate: true,
-      },
     },
   ],
 });

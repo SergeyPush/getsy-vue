@@ -10,8 +10,8 @@
         <router-link :to="{ name: 'home' }" class="logo">Getsy</router-link>
 
         <div class="user">
-          <div>
-            <i class="fa fa-user-o user-icon" v-if="auth.firstName"></i>
+          <div v-if="auth.firstName">
+            <i class="fa fa-user-o user-icon"></i>
             <span class="username">
               {{ auth.firstName }}
             </span>
@@ -63,7 +63,7 @@
         </button>
       </div>
     </Container>
-    <div class="modal" :class="[isDisplayed && 'is-active']">
+    <div class="modal" :class="[isDisplayed && 'is-active']" v-if="isDisplayed">
       <div class="modal-background"></div>
       <div class="modal-content custom-modal">
         <div class="box">
@@ -169,6 +169,7 @@ export default defineComponent({
   text-decoration: underline;
 }
 .button {
+  font-size: 15px;
   text-decoration: none;
   outline: none;
 }

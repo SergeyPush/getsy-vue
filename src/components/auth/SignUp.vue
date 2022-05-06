@@ -50,7 +50,13 @@
         {{ error }}
       </div>
     </article>
-    <button class="button is-primary" type="submit">Sign Up</button>
+    <button
+      class="button is-primary"
+      type="submit"
+      :class="[isLoading && 'is-loading']"
+    >
+      Sign Up
+    </button>
   </form>
 </template>
 
@@ -67,7 +73,7 @@ export default defineComponent({
   components: { Input },
   setup(_, context) {
     const auth = useAuthStore();
-    const { error } = storeToRefs(auth);
+    const { error, isLoading } = storeToRefs(auth);
 
     const formData = reactive({
       firstName: '',
@@ -118,7 +124,7 @@ export default defineComponent({
       }
     };
     onUnmounted(() => auth.clearError());
-    return { formData, submitForm, v$, error };
+    return { formData, submitForm, v$, error, isLoading };
   },
 });
 </script>

@@ -1,5 +1,6 @@
 <template>
   <Container class="mt-3">
+    <h1 class="subtitle is-3 mt-5">Your favorites</h1>
     <Spinner :isLoading="isLoading" />
     <EmptyProduct v-if="!hasFavorites" text="No favorites" />
     <ProductList v-if="hasFavorites">
