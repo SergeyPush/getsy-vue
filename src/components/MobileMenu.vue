@@ -40,7 +40,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { useAuthStore } from '../store/auth';
+import { useAuthStore } from '../store/auth.store';
 
 export default defineComponent({
   emits: ['close', 'openDialog'],

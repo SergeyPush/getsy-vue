@@ -66,7 +66,7 @@ import { defineComponent, reactive, onUnmounted } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, email, helpers } from '@vuelidate/validators';
 import { storeToRefs } from 'pinia';
-import { useAuthStore } from '../../store/auth';
+import { useAuthStore } from '../../store/auth.store';
 import Input from './components/Input.vue';
 
 export default defineComponent({

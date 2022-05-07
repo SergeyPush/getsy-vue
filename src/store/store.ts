@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
-import { useAuthStore } from './auth';
-import { useFavoritesStore } from './favorites';
+import { useAuthStore } from './auth.store';
+import { useFavoritesStore } from './favorites.store';
 
 const auth = useAuthStore();
 const favorites = useFavoritesStore();

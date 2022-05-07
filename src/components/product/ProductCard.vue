@@ -49,7 +49,7 @@ import Card from 'primevue/card';
 import Image from './Image.vue';
 import { computed } from '@vue/reactivity';
 import { getDate } from '../../helpers/date.helpers';
-import { useFavoritesStore } from '../../store/favorites';
+import { useFavoritesStore } from '../../store/favorites.store';
 import { storeToRefs } from 'pinia';
 
 export default defineComponent({
