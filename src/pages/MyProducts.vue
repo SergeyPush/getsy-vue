@@ -19,7 +19,7 @@ import ProductList from '../components/product/ProductList.vue';
 import ProductCard from '../components/product/ProductCard.vue';
 import Spinner from '../components/Spinner.vue';
 import { useGetAllProductsByUser } from '../api/product.queries';
-import { useAuthStore } from '../store/auth';
+import { useAuthStore } from '../store/auth.store';
 import { storeToRefs } from 'pinia';
 
 export default defineComponent({

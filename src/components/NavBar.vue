@@ -94,7 +94,7 @@ import { defineComponent, ref } from 'vue';
 import Login from '../components/auth/Login.vue';
 import SignUp from '../components/auth/SignUp.vue';
 import { useAuthStore } from '../store/auth.store';
-import { useFavoritesStore } from '../store/favorites';
+import { useFavoritesStore } from '../store/favorites.store';
 import Container from './Container.vue';
 import MobileMenu from './MobileMenu.vue';
 import { storeToRefs } from 'pinia';

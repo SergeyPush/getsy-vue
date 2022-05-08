@@ -1,9 +1,12 @@
 <template>
-  <div class="backdrop"></div>
+  <div class="backdrop" @click="basket.closeBasket()"></div>
   <div class="wrapper">Basket</div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useBasketStore } from '../../store/basket.store';
+const basket = useBasketStore();
+</script>
 
 <style scoped lang="scss">
 .backdrop {

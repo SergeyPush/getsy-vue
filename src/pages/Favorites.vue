@@ -17,7 +17,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import Container from '../components/Container.vue';
-import { useFavoritesStore } from '../store/favorites';
+import { useFavoritesStore } from '../store/favorites.store';
 import Spinner from '../components/Spinner.vue';
 import ProductList from '../components/product/ProductList.vue';
 import ProductCard from '../components/product/ProductCard.vue';
@@ -26,9 +26,10 @@ import { onMounted, watch } from 'vue';
 import EmptyProduct from '../components/product/EmptyProduct.vue';
 
 const favs = useFavoritesStore();
-const { favorites, hasFavorites } = storeToRefs(favs);
 
+const { favorites, hasFavorites } = storeToRefs(favs);
 const { data, isLoading, fetchData } = useFetchFavorites();
+
 onMounted(() => fetchData(favorites.value));
 watch(favorites, () => fetchData(favorites.value));
 </script>

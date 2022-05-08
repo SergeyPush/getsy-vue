@@ -1,20 +1,16 @@
 <template>
-  <Basket />
+  <Basket v-if="isOpen" />
   <NavBar />
   <router-view :key="$route.path" />
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
 import NavBar from './components/NavBar.vue';
 import Basket from './components/basket/Basket.vue';
-
-export default defineComponent({
-  components: { NavBar, Basket },
-  setup() {
-    return {};
-  },
-});
+import { useBasketStore } from './store/basket.store';
+import { storeToRefs } from 'pinia';
+const basket = useBasketStore();
+const { isOpen } = storeToRefs(basket);
 </script>
 
 <style lang="scss">
