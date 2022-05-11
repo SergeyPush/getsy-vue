@@ -94,6 +94,7 @@ export default defineComponent({
   z-index: 20;
   display: none;
   transition: all 0.4s linear;
+  max-width: none;
   @include tablet {
     max-width: 350px;
   }

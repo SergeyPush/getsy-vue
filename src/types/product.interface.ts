@@ -1,12 +1,15 @@
 export interface ProductInterface {
   id?: number;
-  type: string;
   title: string;
   description: string;
-  price: number | null;
+  createdAt: Date;
   features: string[] | undefined;
+  type: string;
+  price: number;
+  images?: string[];
+  imageId: any[];
   quantity: number;
-  images?: FormDataEntryValue[];
+  authorId?: any;
 }
 
 export interface CreateProductInterface {

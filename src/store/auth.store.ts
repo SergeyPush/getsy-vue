@@ -12,8 +12,12 @@ export const useAuthStore = defineStore('auth', {
     accessToken: '',
     error: '',
     isLoading: false,
+    authIsOpen: false,
   }),
-
+  getters: {
+    isAuthenticated: (store) => !!store.accessToken,
+    isAuthOpen: (store) => store.authIsOpen,
+  },
   actions: {
     async logIn(authData: AuthType) {
       try {
@@ -48,6 +52,9 @@ export const useAuthStore = defineStore('auth', {
         this.isLoading = false;
       }
     },
+    openAuth() {
+      this.authIsOpen = !this.authIsOpen;
+    },
     signOut() {
       this.firstName = '';
       this.lastName = '';
@@ -59,9 +66,6 @@ export const useAuthStore = defineStore('auth', {
     },
   },
 
-  getters: {
-    isAuthenticated: (store) => !!store.accessToken,
-  },
   persist: {
     key: 'user',
     paths: ['firstName', 'lastName', 'email', 'accessToken', 'id'],

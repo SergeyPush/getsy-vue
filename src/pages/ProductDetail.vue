@@ -47,9 +47,15 @@
           </li>
         </ul>
 
-        <p class="mt-2">
+        <p class="mt-2 mb-4">
           <span class="label-bold">Added:</span> <span>{{ time }}</span>
         </p>
+        <button
+          class="button is-medium is-info buy-button"
+          @click="addToBasket"
+        >
+          Purchase
+        </button>
       </div>
     </div>
   </Container>
@@ -68,6 +74,8 @@ import { getDate } from './../helpers/date.helpers';
 import { computed } from '@vue/reactivity';
 import Spinner from '../components/Spinner.vue';
 import EmptyProduct from '../components/product/EmptyProduct.vue';
+import { useBasketStore } from '../store/basket.store';
+import { ProductInterface } from '../types/product.interface';
 
 export default defineComponent({
   components: {
@@ -91,6 +99,11 @@ export default defineComponent({
 
     const time = computed(() => getDate(product?.value?.createdAt));
 
+    const basket = useBasketStore();
+    const addToBasket = () => {
+      basket.addToBasket(product.value as ProductInterface);
+    };
+
     const deleteProduct = async () => {
       await mutateAsync(id);
       if (isSuccess) {
@@ -109,6 +122,7 @@ export default defineComponent({
       getDate,
       time,
       error,
+      addToBasket,
     };
   },
 });
@@ -145,5 +159,9 @@ export default defineComponent({
 }
 .label-bold {
   font-weight: 600;
+}
+.buy-button {
+  display: block;
+  margin-left: auto;
 }
 </style>

@@ -41,6 +41,11 @@ const router = createRouter({
       name: 'favorites',
       component: () => import('../pages/Favorites.vue'),
     },
+    {
+      path: RouterPaths.CONFIRMATION,
+      name: 'confirmation',
+      component: () => import('../pages/Confirmation.vue'),
+    },
   ],
 });
 
