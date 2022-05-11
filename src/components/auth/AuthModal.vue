@@ -1,7 +1,7 @@
 <template>
   <div class="modal" :class="[isAuthOpen && 'is-active']" v-if="isAuthOpen">
     <div class="modal-background"></div>
-    <div class="modal-content custom-modal">
+    <div class="modal-content custom-modal" v-motion-pop>
       <div class="box">
         <h3 class="subtitle has-text-centered">
           {{ hasAccount ? 'Log In' : 'Sign Up' }}

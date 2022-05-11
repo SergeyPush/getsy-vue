@@ -1,6 +1,6 @@
 <template>
   <router-link :to="{ name: 'product', params: { id: product.id } }">
-    <div class="card">
+    <div class="card" v-motion-slide-bottom>
       <div class="card-image">
         <div
           v-if="showFavorites"

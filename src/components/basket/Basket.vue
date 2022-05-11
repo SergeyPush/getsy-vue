@@ -1,15 +1,23 @@
 <template>
-  <div class="backdrop" @click="basket.closeBasket()"></div>
-  <div class="wrapper">
-    <div class="header">
-      <span class="basket-title">Basket</span>
-      <CloseIcon class="close-icon" @click="closeBasket" />
-    </div>
-    <BasketList :data="getBasket" v-if="basketHasProducts" />
-    <p v-if="!basketHasProducts">Basket is empty, try to buy something</p>
-    <div class="bottom">
-      <p class="mb-3">Total price: {{ getTotal }}</p>
-      <button class="button is-info" @click="handleBuyButton">Buy</button>
+  <div v-if="isOpen">
+    <div class="backdrop" @click="basket.closeBasket"></div>
+    <div
+      class="wrapper"
+      v-motion
+      :initial="variant.initial"
+      :enter="variant.enter"
+      :leave="variant.leave"
+    >
+      <div class="header">
+        <span class="basket-title">Basket</span>
+        <CloseIcon class="close-icon" @click="closeBasket" />
+      </div>
+      <BasketList :data="getBasket" v-if="basketHasProducts" />
+      <p v-if="!basketHasProducts">Basket is empty, try to buy something</p>
+      <div class="bottom">
+        <p class="mb-3">Total price: {{ getTotal }}</p>
+        <button class="button is-info" @click="handleBuyButton">Buy</button>
+      </div>
     </div>
   </div>
 </template>
@@ -21,13 +29,28 @@ import { CloseIcon } from '@iconicicons/vue3';
 import BasketList from './components/BasketList.vue';
 import { useAuthStore } from '../../store/auth.store';
 import { useRouter } from 'vue-router';
+import { ref } from 'vue';
 
 const basket = useBasketStore();
 const auth = useAuthStore();
-const { getBasket, getTotal, basketHasProducts } = storeToRefs(basket);
+const { getBasket, getTotal, basketHasProducts, isOpen } = storeToRefs(basket);
 const { isAuthenticated } = storeToRefs(auth);
 const router = useRouter();
 
+const variant = ref({
+  initial: {
+    opacity: 0,
+    x: 200,
+  },
+  enter: {
+    opacity: 1,
+    x: 0,
+  },
+  leave: {
+    opacity: 0,
+    x: 200,
+  },
+});
 const closeBasket = () => {
   basket.closeBasket();
 };

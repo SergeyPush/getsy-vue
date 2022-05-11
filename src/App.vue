@@ -1,5 +1,5 @@
 <template>
-  <Basket v-if="isOpen" />
+  <Basket />
   <NavBar />
   <router-view :key="$route.path" />
 </template>
@@ -7,10 +7,6 @@
 <script setup lang="ts">
 import NavBar from './components/NavBar.vue';
 import Basket from './components/basket/Basket.vue';
-import { useBasketStore } from './store/basket.store';
-import { storeToRefs } from 'pinia';
-const basket = useBasketStore();
-const { isOpen } = storeToRefs(basket);
 </script>
 
 <style lang="scss">
