@@ -1,18 +1,12 @@
 <template>
+  <Basket />
   <NavBar />
   <router-view :key="$route.path" />
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
 import NavBar from './components/NavBar.vue';
-
-export default defineComponent({
-  components: { NavBar },
-  setup() {
-    return {};
-  },
-});
+import Basket from './components/basket/Basket.vue';
 </script>
 
 <style lang="scss">
@@ -23,8 +17,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #eff4f8;
-
   font-size: 16px;
+  overflow: hidden;
 }
 body,
 p,

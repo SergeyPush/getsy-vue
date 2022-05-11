@@ -6,5 +6,6 @@ export enum RouterPaths {
   MY_PRODUCTS = '/products/my-products',
   PRODUCT = '/products/:id',
   FAVORITES = '/favorites',
+  CONFIRMATION = '/confirmation',
   NOT_FOUND = '/:pathMatch(.*)*',
 }

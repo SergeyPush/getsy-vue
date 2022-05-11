@@ -38,7 +38,7 @@ import { defineComponent, reactive, onUnmounted, onDeactivated } from 'vue';
 
 import useVuelidate from '@vuelidate/core';
 import { required, email, helpers } from '@vuelidate/validators';
-import { useAuthStore } from '../../store/auth';
+import { useAuthStore } from '../../store/auth.store';
 import { storeToRefs } from 'pinia';
 import InlineMessage from 'primevue/inlinemessage';
 import Input from './components/Input.vue';

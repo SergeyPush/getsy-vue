@@ -1,5 +1,6 @@
 <template>
   <Container class="mt-3">
+    <h1 class="subtitle is-3 mt-5">My products</h1>
     <Spinner :isLoading="isLoading" />
     <ProductList>
       <ProductCard
@@ -19,7 +20,7 @@ import ProductList from '../components/product/ProductList.vue';
 import ProductCard from '../components/product/ProductCard.vue';
 import Spinner from '../components/Spinner.vue';
 import { useGetAllProductsByUser } from '../api/product.queries';
-import { useAuthStore } from '../store/auth';
+import { useAuthStore } from '../store/auth.store';
 import { storeToRefs } from 'pinia';
 
 export default defineComponent({

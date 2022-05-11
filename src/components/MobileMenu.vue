@@ -40,7 +40,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { useAuthStore } from '../store/auth';
+import { useAuthStore } from '../store/auth.store';
 
 export default defineComponent({
   emits: ['close', 'openDialog'],
@@ -94,6 +94,7 @@ export default defineComponent({
   z-index: 20;
   display: none;
   transition: all 0.4s linear;
+  max-width: none;
   @include tablet {
     max-width: 350px;
   }

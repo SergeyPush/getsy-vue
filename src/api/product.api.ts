@@ -1,7 +1,7 @@
 import api from './api';
 import { AxiosError } from 'axios';
 import { ProductInterface } from '../types/product.interface';
-import { useAuthStore } from '../store/auth';
+import { useAuthStore } from '../store/auth.store';
 
 class AxiosErrorMessage extends Error {
   constructor(message: AxiosError) {
