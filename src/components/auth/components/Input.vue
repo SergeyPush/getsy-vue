@@ -9,6 +9,7 @@
         :type="type"
         :placeholder="placeholder"
         :value="value"
+        :name="name"
         @input="handleInput"
         autocomplete="off"
       />

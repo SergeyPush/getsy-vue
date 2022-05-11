@@ -24,6 +24,5 @@ export default defineComponent({
 .img {
   object-fit: cover;
   height: 100%;
-  cursor: pointer;
 }
 </style>

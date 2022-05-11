@@ -46,6 +46,16 @@
   resolved "https://registry.yarnpkg.com/@emmetio/scanner/-/scanner-1.0.0.tgz#065b2af6233fe7474d44823e3deb89724af42b5f"
   integrity sha512-8HqW8EVqjnCmWXVpqAOZf+EGESdkR27odcMMMGefgKXtar00SoYNSryGv//TELI4T3QFsECo78p+0lmalk/CFA==
 
+"@iconicicons/vue3@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@iconicicons/vue3/-/vue3-1.5.0.tgz#7e5ceab19a8f67c023de9b38a581c93d9ece1819"
+  integrity sha512-ytSXAJ0R6ocf76ntPqQ3erQ19lwCmIFzWVtDOtxWRJU74C+xJFZqAiG6boID7Fnj6Pf5DYwleHR5SAzieOUrvg==
+
+"@iconify/vue@^3.2.1":
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/@iconify/vue/-/vue-3.2.1.tgz#bd8a2f1213ba8775d4b7a7a8ba895e53ae2f4dfc"
+  integrity sha512-c4R6ZgFo1JrJ8aPMMgOPgfU7lBswihMGR+yWe/P4ZukC3kTkeT4+lkt9Pc/itVFMkwva/S/7u9YofmYv57fnNQ==
+
 "@types/date-fns@^2.6.0":
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/@types/date-fns/-/date-fns-2.6.0.tgz#b062ca46562002909be0c63a6467ed173136acc1"

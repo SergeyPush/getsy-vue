@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { RouterPaths } from './routes.paths';
-import { useAuthStore } from '../store/auth';
+import { useAuthStore } from '../store/auth.store';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -40,9 +40,11 @@ const router = createRouter({
       path: RouterPaths.FAVORITES,
       name: 'favorites',
       component: () => import('../pages/Favorites.vue'),
-      meta: {
-        isPrivate: true,
-      },
+    },
+    {
+      path: RouterPaths.CONFIRMATION,
+      name: 'confirmation',
+      component: () => import('../pages/Confirmation.vue'),
     },
   ],
 });

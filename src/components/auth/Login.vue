@@ -34,11 +34,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, onUnmounted } from 'vue';
+import { defineComponent, reactive, onUnmounted, onDeactivated } from 'vue';
 
 import useVuelidate from '@vuelidate/core';
 import { required, email, helpers } from '@vuelidate/validators';
-import { useAuthStore } from '../../store/auth';
+import { useAuthStore } from '../../store/auth.store';
 import { storeToRefs } from 'pinia';
 import InlineMessage from 'primevue/inlinemessage';
 import Input from './components/Input.vue';
@@ -65,6 +65,7 @@ export default defineComponent({
     };
 
     const v$ = useVuelidate(rules, formData);
+
     const submitForm = async () => {
       await v$.value.$validate();
       const isInValid = v$.value.$invalid;
@@ -79,7 +80,13 @@ export default defineComponent({
         context.emit('closeDialog');
       }
     };
-    onUnmounted(() => auth.clearError());
+
+    const clear = () => {
+      v$.value.$reset();
+      auth.clearError();
+    };
+    onUnmounted(() => clear());
+    onDeactivated(() => clear());
     return { formData, submitForm, v$, error, isLoading };
   },
 });
@@ -95,7 +102,7 @@ export default defineComponent({
   margin-left: auto;
 }
 .message {
-  max-width: 280px;
+  /* max-width: 280px; */
   width: 100%;
   margin-bottom: 10px;
 }
