@@ -1,13 +1,7 @@
 <template>
   <div v-if="isOpen">
     <div class="backdrop" @click="basket.closeBasket"></div>
-    <div
-      class="wrapper"
-      v-motion
-      :initial="variant.initial"
-      :enter="variant.enter"
-      :leave="variant.leave"
-    >
+    <div class="wrapper">
       <div class="header">
         <span class="basket-title">Basket</span>
         <CloseIcon class="close-icon" @click="closeBasket" />
@@ -37,20 +31,6 @@ const { getBasket, getTotal, basketHasProducts, isOpen } = storeToRefs(basket);
 const { isAuthenticated } = storeToRefs(auth);
 const router = useRouter();
 
-const variant = ref({
-  initial: {
-    opacity: 0,
-    x: 200,
-  },
-  enter: {
-    opacity: 1,
-    x: 0,
-  },
-  leave: {
-    opacity: 0,
-    x: 200,
-  },
-});
 const closeBasket = () => {
   basket.closeBasket();
 };

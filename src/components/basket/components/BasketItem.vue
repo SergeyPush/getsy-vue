@@ -1,6 +1,6 @@
 <template>
   <div class="basket-item mb-4">
-    <Image :src="product.images[0]" class="image mr-3" />
+    <Image :src="product?.images[0]" class="image mr-3" v-if="product.images" />
     <span>{{ product.title }}</span>
     <span class="item-price">${{ product.price }}</span>
     <CloseIcon
