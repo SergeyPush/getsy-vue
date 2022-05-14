@@ -1,19 +1,25 @@
 <template>
-  <div v-if="isOpen">
-    <div class="backdrop" @click="basket.closeBasket"></div>
-    <div class="wrapper">
+  <transition name="fade">
+    <div class="backdrop" @click="basket.closeBasket" v-if="isOpen"></div>
+  </transition>
+  <transition name="slide">
+    <div class="wrapper" v-if="isOpen">
       <div class="header">
         <span class="basket-title">Basket</span>
         <CloseIcon class="close-icon" @click="closeBasket" />
       </div>
       <BasketList :data="getBasket" v-if="basketHasProducts" />
-      <p v-if="!basketHasProducts">Basket is empty, try to buy something</p>
+      <Transition mode="out-in" name="fade">
+        <p v-if="!basketHasProducts" class="has-text-centered is-size-4 m-auto">
+          Basket is empty, try to buy something
+        </p>
+      </Transition>
       <div class="bottom">
         <p class="mb-3">Total price: {{ getTotal }}</p>
         <button class="button is-info" @click="handleBuyButton">Buy</button>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script setup lang="ts">
@@ -23,12 +29,11 @@ import { CloseIcon } from '@iconicicons/vue3';
 import BasketList from './components/BasketList.vue';
 import { useAuthStore } from '../../store/auth.store';
 import { useRouter } from 'vue-router';
-import { ref } from 'vue';
 
-const basket = useBasketStore();
 const auth = useAuthStore();
-const { getBasket, getTotal, basketHasProducts, isOpen } = storeToRefs(basket);
 const { isAuthenticated } = storeToRefs(auth);
+const basket = useBasketStore();
+const { getBasket, getTotal, basketHasProducts, isOpen } = storeToRefs(basket);
 const router = useRouter();
 
 const closeBasket = () => {
@@ -90,5 +95,23 @@ const handleBuyButton = () => {
 }
 .close-icon {
   cursor: pointer;
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: transform 0.4s ease-in-out;
+}
+.slide-enter-from,
+.slide-leave-to {
+  transform: translateX(100%);
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.8s;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

@@ -1,7 +1,13 @@
 <template>
   <Basket />
   <NavBar />
-  <router-view :key="$route.path" />
+
+  <!-- <router-view :key="$route.path" /> -->
+  <router-view v-slot="{ Component }">
+    <transition mode="out-in" name="fade">
+      <component :is="Component" :key="$route.path" />
+    </transition>
+  </router-view>
 </template>
 
 <script setup lang="ts">
@@ -24,5 +30,14 @@ body,
 p,
 time {
   color: #475569;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.4s;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

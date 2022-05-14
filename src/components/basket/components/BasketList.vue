@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <TransitionGroup name="basket">
     <BasketItem v-for="(item, key) in data" :key="key" :item="item" />
-  </div>
+  </TransitionGroup>
 </template>
 
 <script setup lang="ts">
@@ -12,4 +12,14 @@ const { data } = defineProps({
 });
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.basket-enter-active,
+.basket-leave-active {
+  transition: all 0.5s ease;
+}
+.basket-enter-from,
+.basket-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+</style>
