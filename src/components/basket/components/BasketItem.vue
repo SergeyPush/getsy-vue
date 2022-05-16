@@ -30,6 +30,7 @@ const product = item as ProductInterface;
 .image {
   width: 100px;
   max-height: 80px;
+  border-radius: 5px;
 }
 .item-price {
   margin-left: auto;

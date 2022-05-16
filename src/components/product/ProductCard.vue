@@ -109,6 +109,7 @@ export default defineComponent({
 .favorite-pad {
   display: flex;
   opacity: 0;
+  transform: translateY(-30px);
   justify-content: center;
   align-items: center;
   z-index: 1;
@@ -126,6 +127,7 @@ export default defineComponent({
 }
 .card:hover .favorite-pad {
   opacity: 1;
+  transform: translateY(0);
 }
 .favorite {
   font-size: 20px;
@@ -136,5 +138,6 @@ export default defineComponent({
 }
 .displayed {
   opacity: 1;
+  transform: translateY(0);
 }
 </style>

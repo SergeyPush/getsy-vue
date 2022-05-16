@@ -14,6 +14,19 @@
       v-if="product"
     />
     <div class="controls mb-3 mt-3" v-if="!error">
+      <button class="button favorites" v-if="product" @click="add">
+        <span class="icon">
+          <i
+            class="fa favorite"
+            :class="[
+              isFavorite(product.id) ? 'fa-heart selected' : 'fa-heart-o',
+            ]"
+          ></i>
+        </span>
+        <span>{{
+          isFavorite(product.id) ? 'Remove from vavorites' : 'Add to favorites'
+        }}</span>
+      </button>
       <button class="button is-success" @click="editDialog = true">
         <span class="icon">
           <i class="fa fa-pencil"></i>
@@ -76,6 +89,8 @@ import Spinner from '../components/Spinner.vue';
 import EmptyProduct from '../components/product/EmptyProduct.vue';
 import { useBasketStore } from '../store/basket.store';
 import { ProductInterface } from '../types/product.interface';
+import { useFavoritesStore } from '../store/favorites.store';
+import { storeToRefs } from 'pinia';
 
 export default defineComponent({
   components: {
@@ -97,11 +112,18 @@ export default defineComponent({
     const confirmDialog = ref(false);
     const editDialog = ref(false);
 
+    const favorites = useFavoritesStore();
+    const { isFavorite } = storeToRefs(favorites);
+
     const time = computed(() => getDate(product?.value?.createdAt));
 
     const basket = useBasketStore();
     const addToBasket = () => {
       basket.addToBasket(product.value as ProductInterface);
+    };
+
+    const add = () => {
+      favorites.addToFavorites(product.value.id);
     };
 
     const deleteProduct = async () => {
@@ -123,6 +145,8 @@ export default defineComponent({
       time,
       error,
       addToBasket,
+      isFavorite,
+      add,
     };
   },
 });
@@ -163,5 +187,8 @@ export default defineComponent({
 .buy-button {
   display: block;
   margin-left: auto;
+}
+.selected {
+  color: tomato;
 }
 </style>
